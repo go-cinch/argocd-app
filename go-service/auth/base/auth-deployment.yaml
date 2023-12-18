@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: app
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - image: ghcr.io/go-cinch/auth:latest
+        imagePullPolicy: Always
+        name: auth
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        envFrom:
+        - configMapRef:
+            name: auth-configmap
+        resources:
+          requests:
+            cpu: 150m
+            memory: 300Mi
+        ports:
+        - name: http-port
+          containerPort: 8080 # For http
+        - name: grpc-port
+          containerPort: 8180 # For grpc
+      - image: nginx:1.25.3
+        imagePullPolicy: Always
+        name: auth-nginx
+        resources:
+          requests:
+            cpu: 50m
+            memory: 106Mi
+        ports:
+        - name: http-vhost-port
+          containerPort: 8000 # For http
+        - name: grpc-vhost-port
+          containerPort: 8001 # For grpc
+        volumeMounts:
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d/vhost.conf
+          subPath: vhost.conf
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d/vhost.grpc.conf
+          subPath: vhost.grpc.conf
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: auth-nginx-conf
+          items:
+          - key: vhost.conf
+            path: vhost.conf
+          - key: vhost.grpc.conf
+            path: vhost.grpc.conf

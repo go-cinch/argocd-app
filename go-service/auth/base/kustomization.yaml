@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: app
+resources:
+- auth-deployment.yaml
+- auth-svc.yaml
+configMapGenerator:
+- name: auth-configmap
+  envs:
+  - ./env/db.env
+  - ./env/misc.env
+- name: auth-nginx-conf
+  files:
+  - nginx/conf.d/vhost.conf
+  - nginx/conf.d/vhost.grpc.conf
