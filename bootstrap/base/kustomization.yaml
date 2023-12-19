@@ -4,4 +4,5 @@ namespace: argocd
 resources:
 - templates/ingress.yaml
 - templates/redis.yaml
+- templates/mysql.yaml
 - templates/auth.yaml
