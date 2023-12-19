@@ -7,6 +7,7 @@ spec:
   tls:
   - hosts:
     - 'app.go-cinch.top'
+    - 'vue3.go-cinch.top'
     secretName: app-ingress-tls
   ingressClassName: nginx
   defaultBackend:
@@ -23,5 +24,15 @@ spec:
         backend:
           service:
             name: auth
+            port:
+              number: 80
+  - host: 'vue3.go-cinch.top'
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: vue3
             port:
               number: 80
