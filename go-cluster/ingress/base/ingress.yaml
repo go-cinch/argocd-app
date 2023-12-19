@@ -4,17 +4,7 @@ metadata:
   name: app-ingress
   namespace: app
 spec:
-  tls:
-  - hosts:
-    - 'app.go-cinch.top'
-    - 'vue3.go-cinch.top'
-    secretName: app-ingress-tls
   ingressClassName: nginx
-  defaultBackend:
-    service:
-      name: auth
-      port:
-        number: 80
   rules:
   - host: 'app.go-cinch.top'
     http:
