@@ -9,6 +9,7 @@ configMapGenerator:
   envs:
   - ./env/db.env
   - ./env/misc.env
+  - ./env/service.env
 - name: auth-nginx-conf
   files:
   - nginx/conf.d/vhost.conf
