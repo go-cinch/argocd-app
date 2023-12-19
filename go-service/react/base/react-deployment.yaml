@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react
+  namespace: app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: react
+  template:
+    metadata:
+      labels:
+        app: react
+    spec:
+      containers:
+      - image: ghcr.io/go-cinch/pc-react:latest
+        imagePullPolicy: Always
+        name: react
+        resources:
+          requests:
+            cpu: 150m
+            memory: 300Mi
+        ports:
+        - name: http-port
+          containerPort: 80 # For http

@@ -7,3 +7,4 @@ resources:
 - templates/mysql.yaml
 - templates/auth.yaml
 - templates/vue3.yaml
+- templates/react.yaml
