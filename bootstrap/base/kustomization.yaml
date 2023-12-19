@@ -6,3 +6,4 @@ resources:
 - templates/redis.yaml
 - templates/mysql.yaml
 - templates/auth.yaml
+- templates/vue3.yaml
