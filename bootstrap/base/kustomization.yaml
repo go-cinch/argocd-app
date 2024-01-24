@@ -8,3 +8,4 @@ resources:
 - templates/auth.yaml
 - templates/vue3.yaml
 - templates/react.yaml
+- templates/backing2.yaml
