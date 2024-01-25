@@ -42,9 +42,18 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        envFrom:
-        - configMapRef:
-            name: backing2-configmap
+        - name: SERVICE_DATA_DATABASE_ENDPOINT
+          value: mysql:3306
+        - name: SERVICE_DATA_DATABASE_USERNAME
+          value: root
+        - name: SERVICE_DATA_DATABASE_PASSWORD
+          value: root
+        - name: SERVICE_DATA_DATABASE_SCHEMA
+          value: backing3
+        - name: SERVICE_DATA_DATABASE_DRIVER
+          value: mysql
+        - name: SERVICE_DATA_REDIS_DSN
+          value: redis://redis:6379/0
         resources:
           requests:
             cpu: 150m
