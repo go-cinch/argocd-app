@@ -34,6 +34,29 @@ spec:
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
+      - image: ghcr.io/go-cinch/backing2:latest
+        imagePullPolicy: Always
+        name: backing2
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        envFrom:
+        - configMapRef:
+            name: backing2-configmap
+        resources:
+          requests:
+            cpu: 150m
+            memory: 300Mi
+        ports:
+        - name: http-port
+          containerPort: 8080 # For http
+        - name: grpc-port
+          containerPort: 8180 # For grpc
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
       volumes:
       - name: mysql-persistent-storage
         emptyDir: {}
