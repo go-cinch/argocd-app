@@ -39,7 +39,6 @@ spec:
         securityContext:
           runAsUser: 999 # mysql user id is 999
           runAsGroup: 999
-          fsGroup: 999
         name: backing2
         env:
         - name: POD_IP
