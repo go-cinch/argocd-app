@@ -36,6 +36,10 @@ spec:
           mountPath: /var/lib/mysql
       - image: ghcr.io/go-cinch/backing2:latest
         imagePullPolicy: Always
+        securityContext:
+          runAsUser: 999 # mysql user id is 999
+          runAsGroup: 999
+          fsGroup: 999
         name: backing2
         env:
         - name: POD_IP
