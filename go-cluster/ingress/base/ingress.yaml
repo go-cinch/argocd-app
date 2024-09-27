@@ -6,6 +6,16 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
+  - host: "app.go-cinch.top"
+    http:
+      paths:
+      - path: /api/auth/
+        pathType: Prefix
+        backend:
+          service:
+            name: auth
+            port:
+              number: 80
   - host: 'vue3.go-cinch.top'
     http:
       paths:
@@ -16,13 +26,6 @@ spec:
             name: vue3
             port:
               number: 80
-      - path: /api/auth/
-        pathType: Prefix
-        backend:
-          service:
-            name: auth
-            port:
-              number: 80
   - host: 'react.go-cinch.top'
     http:
       paths:
@@ -30,14 +33,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: vue3
-            port:
-              number: 80
-      - path: /api/auth/
-        pathType: Prefix
-        backend:
-          service:
-            name: auth
+            name: react
             port:
               number: 80
   - host: 'asynqmon.go-cinch.top'
