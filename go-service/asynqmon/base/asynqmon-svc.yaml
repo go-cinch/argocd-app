@@ -12,3 +12,20 @@ spec:
   selector:
     app: asynqmon
   type: ClusterIP
+
+---
+# canary svc
+apiVersion: v1
+kind: Service
+metadata:
+  name: asynqmon-canary
+  namespace: app
+spec:
+  ports:
+  - name: http-port
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: asynqmon
+  type: ClusterIP
