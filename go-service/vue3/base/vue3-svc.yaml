@@ -12,3 +12,21 @@ spec:
   selector:
     app: vue3
   type: ClusterIP
+  
+---
+
+# canary svc
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue3-canary
+  namespace: app
+spec:
+  ports:
+  - name: http-port
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: vue3
+  type: ClusterIP
