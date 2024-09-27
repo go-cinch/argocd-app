@@ -72,7 +72,7 @@ spec:
       volumes:
       - name: nginx-conf
         configMap:
-          name: auth-nginx-conf
+          name: auth-nginx-conf-8f2fdm282t
           items:
           - key: vhost.conf
             path: vhost.conf
