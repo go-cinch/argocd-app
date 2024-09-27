@@ -1,11 +1,26 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: asynqmon
   namespace: app
 spec:
   replicas: 1
   revisionHistoryLimit: 3
+  # rollout strategy
+  strategy:
+    canary:
+      canaryService: asynqmon-canary
+      stableService: asynqmon
+      trafficRouting:
+        nginx:
+          stableIngress: app-ingress
+          # add canary header
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
+            canary-by-header-value: iwantsit
+      steps:
+      - setWeight: 5
+      - pause: {}
   selector:
     matchLabels:
       app: asynqmon
