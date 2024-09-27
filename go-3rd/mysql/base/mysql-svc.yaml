@@ -10,19 +10,3 @@ spec:
   selector:
     app: mysql
   type: ClusterIP
-
----
-
-# canary svc
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql-canary
-  namespace: app
-spec:
-  ports:
-  - port: 3306
-    targetPort: 3306
-  selector:
-    app: mysql
-  type: ClusterIP
