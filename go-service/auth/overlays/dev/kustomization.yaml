@@ -9,6 +9,7 @@ configMapGenerator:
   envs:
   - ./env/db.env
 - name: auth-nginx-conf
+  behavior: replace
   files:
   - nginx/conf.d/vhost.conf
   - nginx/conf.d/vhost.grpc.conf
