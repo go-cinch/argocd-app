@@ -6,3 +6,8 @@ configurations:
 resources:
 - vue3-deployment.yaml
 - vue3-svc.yaml
+configMapGenerator:
+- name: vue3-nginx-conf
+  files:
+  - nginx/nginx.conf
+  - nginx/conf.d/vhost.conf
