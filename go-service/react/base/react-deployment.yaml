@@ -40,3 +40,19 @@ spec:
         ports:
         - name: http-port
           containerPort: 80 # For http
+        volumeMounts:
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d/vhost.conf
+          subPath: vhost.conf
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: react-nginx-conf
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+          - key: vhost.conf
+            path: vhost.conf
