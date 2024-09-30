@@ -97,6 +97,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: minio-ui
+            name: minio
             port:
               name: http-minio-ui
