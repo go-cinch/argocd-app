@@ -78,7 +78,6 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
     ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   tls:
   - secretName: minio-ingress-tls
