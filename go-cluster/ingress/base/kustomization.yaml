@@ -15,3 +15,9 @@ secretGenerator:
   - tls.key=certs/server.key
   type: kubernetes.io/tls
   namespace: grafana
+- name: minio-ingress-tls
+  files:
+  - tls.crt=certs/server.pem
+  - tls.key=certs/server.key
+  type: kubernetes.io/tls
+  namespace: minio

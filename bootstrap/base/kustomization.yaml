@@ -10,3 +10,4 @@ resources:
 - templates/react.yaml
 - templates/asynqmon.yaml
 - templates/grafana.yaml
+- templates/minio.yaml

@@ -1,0 +1,68 @@
+# https://minio.com/docs/minio/latest/setup-minio/installation/kubernetes/
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: minio
+  namespace: minio
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: minio
+  # rollout strategy
+  strategy:
+    canary:
+      canaryService: minio-canary
+      stableService: minio
+      trafficRouting:
+        nginx:
+          stableIngress: minio-ingress
+          # add canary header
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
+            canary-by-header-value: iwantsit
+      steps:
+      - setWeight: 5
+      - pause: {}
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      securityContext:
+        fsGroup: 1000
+      initContainers:
+      - name: init-pv-permission
+        image: busybox:1.36
+        command: ["sh", "-c", "chown -R 1000:100 /data"]
+        volumeMounts:
+        - mountPath: /data
+          name: minio-pv
+      containers:
+      - name: minio
+        image: minio/minio:RELEASE.2024-09-22T00-33-43Z
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - minio server /data --console-address :9000
+        ports:
+        - containerPort: 9000
+          name: http-minio
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 250m
+            memory: 750Mi
+        envFrom:
+        - configMapRef:
+            name: minio-configmap
+        volumeMounts:
+        - mountPath: /data
+          name: minio-pv
+      volumes:
+      - name: minio-pv
+        persistentVolumeClaim:
+          claimName: minio-pvc

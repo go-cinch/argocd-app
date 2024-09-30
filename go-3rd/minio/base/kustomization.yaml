@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: minio
+configurations:
+- configurations/rollout-transform.yaml
+resources:
+- minio-pvc.yaml
+- minio-deployment.yaml
+- minio-svc.yaml
+configMapGenerator:
+- name: minio-configmap
+  envs:
+  - ./env/user.env

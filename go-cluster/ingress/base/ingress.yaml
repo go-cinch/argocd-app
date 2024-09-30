@@ -69,3 +69,24 @@ spec:
             name: grafana
             port:
               number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-ingress
+  namespace: minio
+spec:
+  tls:
+  - secretName: minio-ingress-tls
+  ingressClassName: nginx
+  rules:
+  - host: 'minio.go-cinch.top'
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: minio
+            port:
+              number: 80
