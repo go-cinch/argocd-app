@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio-ui
+  name: minio
   namespace: minio
 spec:
   ports:
@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio-ui-canary
+  name: minio-canary
   namespace: minio
 spec:
   ports:
