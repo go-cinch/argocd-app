@@ -4,6 +4,8 @@ metadata:
   name: app-ingress
   namespace: app
 spec:
+  tls:
+  - secretName: app-ingress-tls
   ingressClassName: nginx-app
   rules:
   - host: "app.go-cinch.top"

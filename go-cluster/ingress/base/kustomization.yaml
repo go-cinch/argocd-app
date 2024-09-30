@@ -8,3 +8,10 @@ secretGenerator:
   - tls.crt=certs/server.pem
   - tls.key=certs/server.key
   type: kubernetes.io/tls
+  namespace: app
+- name: grafana-ingress-tls
+  files:
+  - tls.crt=certs/server.pem
+  - tls.key=certs/server.key
+  type: kubernetes.io/tls
+  namespace: grafana
