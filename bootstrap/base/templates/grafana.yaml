@@ -7,8 +7,12 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
 spec:
   syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
     automated:
       prune: true
+      allowEmpty: true
+      selfHeal: true
   destination:
     namespace: grafana
     server: https://kubernetes.default.svc
