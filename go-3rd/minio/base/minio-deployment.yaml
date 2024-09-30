@@ -47,10 +47,13 @@ spec:
         - /bin/bash
         - -c
         args:
-        - minio server /data --console-address :9000
+        - minio server /data --address :9000 --console-address :9001
         ports:
         - containerPort: 9000
           name: http-minio
+          protocol: TCP
+        - containerPort: 9001
+          name: http-console-minio
           protocol: TCP
         resources:
           requests:
