@@ -83,8 +83,8 @@ spec:
   - host: 'minio-api.go-cinch.top'
     http:
       paths:
-      - path: /
-        pathType: Prefix
+      - path: /.*/.*
+        pathType: ImplementationSpecific
         backend:
           service:
             name: minio
