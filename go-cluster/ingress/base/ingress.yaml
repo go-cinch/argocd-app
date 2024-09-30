@@ -6,7 +6,7 @@ metadata:
 spec:
   tls:
   - secretName: app-ingress-tls
-  ingressClassName: nginx-app
+  ingressClassName: nginx
   rules:
   - host: "app.go-cinch.top"
     http:
@@ -57,7 +57,7 @@ metadata:
 spec:
   tls:
   - secretName: grafana-ingress-tls
-  ingressClassName: nginx-grafana
+  ingressClassName: nginx
   rules:
   - host: 'grafana.go-cinch.top'
     http:
