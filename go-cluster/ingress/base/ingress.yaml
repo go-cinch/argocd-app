@@ -4,7 +4,7 @@ metadata:
   name: app-ingress
   namespace: app
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-app
   rules:
   - host: "app.go-cinch.top"
     http:
@@ -46,16 +46,14 @@ spec:
             name: asynqmon
             port:
               number: 80
-
 ---
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: grafana-ingress
   namespace: grafana
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-grafana
   rules:
   - host: 'grafana.go-cinch.top'
     http:
