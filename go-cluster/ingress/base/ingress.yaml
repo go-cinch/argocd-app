@@ -46,3 +46,13 @@ spec:
             name: asynqmon
             port:
               number: 80
+  - host: 'grafana.go-cinch.top'
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 80
