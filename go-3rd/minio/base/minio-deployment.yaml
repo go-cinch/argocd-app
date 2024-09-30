@@ -53,7 +53,7 @@ spec:
           name: http-minio
           protocol: TCP
         - containerPort: 9001
-          name: http-console-minio
+          name: http-minio-adm
           protocol: TCP
         resources:
           requests:
