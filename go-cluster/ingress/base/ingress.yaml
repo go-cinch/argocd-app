@@ -55,6 +55,8 @@ metadata:
   name: grafana-ingress
   namespace: grafana
 spec:
+  tls:
+  - secretName: grafana-ingress-tls
   ingressClassName: nginx-grafana
   rules:
   - host: 'grafana.go-cinch.top'
