@@ -11,3 +11,20 @@ spec:
   selector:
     app: grafana
   type: ClusterIP
+
+---
+
+# canary svc
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-canary
+  namespace: grafana
+spec:
+  ports:
+  - name: http-grafana
+    port: 80
+    targetPort: http-grafana
+  selector:
+    app: grafana
+  type: ClusterIP
