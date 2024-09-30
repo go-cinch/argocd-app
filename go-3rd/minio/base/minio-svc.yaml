@@ -1,12 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio
+  name: minio-ui
   namespace: minio
 spec:
   ports:
-  - name: http-minio
+  - name: http-minio-ui
     port: 80
+    targetPort: http-minio-ui
+  - name: http-minio
+    port: 81
     targetPort: http-minio
   selector:
     app: minio
@@ -16,12 +19,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: minio-canary
+  name: minio-ui-canary
   namespace: minio
 spec:
   ports:
-  - name: http-minio
+  - name: http-minio-ui
     port: 80
+    targetPort: http-minio-ui
+  - name: http-minio
+    port: 81
     targetPort: http-minio
   selector:
     app: minio

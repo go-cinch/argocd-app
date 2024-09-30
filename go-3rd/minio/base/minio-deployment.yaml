@@ -35,7 +35,7 @@ spec:
       initContainers:
       - name: init-pv-permission
         image: busybox:1.36
-        command: ["sh", "-c", "chown -R 1000:100 /data"]
+        command: ["sh", "-c", "chown -R 1000:1000 /data"]
         volumeMounts:
         - mountPath: /data
           name: minio-pv
@@ -53,7 +53,7 @@ spec:
           name: http-minio
           protocol: TCP
         - containerPort: 9001
-          name: http-minio-adm
+          name: http-minio-ui
           protocol: TCP
         resources:
           requests:
