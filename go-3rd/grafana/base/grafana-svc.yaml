@@ -11,9 +11,7 @@ spec:
   selector:
     app: grafana
   type: ClusterIP
-
 ---
-
 # canary svc
 apiVersion: v1
 kind: Service

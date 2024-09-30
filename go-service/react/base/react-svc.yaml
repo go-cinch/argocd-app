@@ -12,9 +12,7 @@ spec:
   selector:
     app: react
   type: ClusterIP
-  
 ---
-
 # canary svc
 apiVersion: v1
 kind: Service

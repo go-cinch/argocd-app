@@ -16,7 +16,6 @@ spec:
   selector:
     app: auth
   type: ClusterIP
-
 ---
 # canary svc
 apiVersion: v1
