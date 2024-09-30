@@ -9,3 +9,4 @@ resources:
 - templates/vue3.yaml
 - templates/react.yaml
 - templates/asynqmon.yaml
+- templates/grafana.yaml
