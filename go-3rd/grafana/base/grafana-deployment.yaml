@@ -17,7 +17,7 @@ spec:
       stableService: grafana
       trafficRouting:
         nginx:
-          stableIngress: app-ingress
+          stableIngress: grafana-ingress
           # add canary header
           additionalIngressAnnotations:
             canary-by-header: X-Canary
