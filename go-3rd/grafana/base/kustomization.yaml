@@ -5,3 +5,7 @@ resources:
 - grafana-pvc.yaml
 - grafana-deployment.yaml
 - grafana-svc.yaml
+configMapGenerator:
+- name: grafana-configmap
+  envs:
+  - ./env/user.env
