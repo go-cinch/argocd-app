@@ -1,0 +1,80 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: oss
+  namespace: app
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  # rollout strategy
+  strategy:
+    canary:
+      canaryService: oss-canary
+      stableService: oss
+      trafficRouting:
+        nginx:
+          stableIngress: app-ingress
+          # add canary header
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
+            canary-by-header-value: iwantsit
+      steps:
+      - setWeight: 5
+      - pause: {}
+  selector:
+    matchLabels:
+      app: oss
+  template:
+    metadata:
+      labels:
+        app: oss
+    spec:
+      containers:
+      - image: ghcr.io/go-cinch/oss@sha256:9cdc45883e782bac696e779fe7bad584430dfd7fce6b047c962a19c25d379cd9
+        imagePullPolicy: Always
+        name: oss
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        envFrom:
+        - configMapRef:
+            name: oss-configmap
+        resources:
+          requests:
+            cpu: 150m
+            memory: 300Mi
+        ports:
+        - name: http-port
+          containerPort: 8080 # For http
+        - name: grpc-port
+          containerPort: 8180 # For grpc
+      - image: nginx:1.25.3
+        imagePullPolicy: Always
+        name: oss-nginx
+        resources:
+          requests:
+            cpu: 50m
+            memory: 106Mi
+        ports:
+        - name: http-vhost-port
+          containerPort: 8000 # For http
+        - name: grpc-vhost-port
+          containerPort: 8001 # For grpc
+        volumeMounts:
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d/vhost.conf
+          subPath: vhost.conf
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d/vhost.grpc.conf
+          subPath: vhost.grpc.conf
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: oss-nginx-conf
+          items:
+          - key: vhost.conf
+            path: vhost.conf
+          - key: vhost.grpc.conf
+            path: vhost.grpc.conf

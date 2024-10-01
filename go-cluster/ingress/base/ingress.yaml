@@ -18,6 +18,13 @@ spec:
             name: auth
             port:
               number: 80
+      - path: /api/oss/
+        pathType: Prefix
+        backend:
+          service:
+            name: oss
+            port:
+              number: 80
   - host: 'vue3.go-cinch.top'
     http:
       paths:

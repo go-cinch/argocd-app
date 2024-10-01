@@ -11,3 +11,4 @@ resources:
 - templates/asynqmon.yaml
 - templates/grafana.yaml
 - templates/minio.yaml
+- templates/oss.yaml
