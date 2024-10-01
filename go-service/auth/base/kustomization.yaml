@@ -14,5 +14,7 @@ configMapGenerator:
   - ./env/service.env
 - name: auth-nginx-conf
   files:
+  - nginx/nginx.conf
+  - nginx/conf.d/default.conf
   - nginx/conf.d/vhost.conf
   - nginx/conf.d/vhost.grpc.conf
