@@ -20,7 +20,7 @@ spec:
         name: redis
         resources:
           requests:
-            cpu: 250m
+            cpu: 50m
             memory: 512Mi
         ports:
         - name: tcp-port

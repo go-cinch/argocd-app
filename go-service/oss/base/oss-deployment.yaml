@@ -43,7 +43,7 @@ spec:
             name: oss-configmap
         resources:
           requests:
-            cpu: 150m
+            cpu: 50m
             memory: 300Mi
         ports:
         - name: http-port
