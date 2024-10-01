@@ -75,17 +75,17 @@ spec:
         - name: nginx-conf
           mountPath: /etc/nginx/conf.d/vhost.grpc.conf
           subPath: vhost.grpc.conf
-        volumes:
-        - name: nginx-conf
-          configMap:
-            name: oss-nginx-conf
-            items:
-            - key: nginx.conf
-              path: nginx.conf
-            - key: default.conf
-              path: default.conf
-            - key: vhost.conf
-              path: vhost.conf
-            - key: vhost.grpc.conf
-              path: vhost.grpc.conf
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: oss-nginx-conf
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+          - key: default.conf
+            path: default.conf
+          - key: vhost.conf
+            path: vhost.conf
+          - key: vhost.grpc.conf
+            path: vhost.grpc.conf
         
