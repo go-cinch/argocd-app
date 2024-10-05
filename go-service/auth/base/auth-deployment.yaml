@@ -30,7 +30,7 @@ spec:
         app: auth
     spec:
       containers:
-      - image: ghcr.io/go-cinch/auth@sha256:c11d8c3232f756979ecd2c0ab40136dc552c6996706a19409912e318df6e9759
+      - image: ghcr.io/go-cinch/auth@sha256:f1c53aaea6a3423a5d427c83296c934324d46e96645c0137dcddb054b29a4829
         imagePullPolicy: Always
         name: auth
         env:
@@ -50,42 +50,4 @@ spec:
           containerPort: 8080 # For http
         - name: grpc-port
           containerPort: 8180 # For grpc
-      - image: nginx:1.25.3
-        imagePullPolicy: Always
-        name: auth-nginx
-        resources:
-          requests:
-            cpu: 50m
-            memory: 106Mi
-        ports:
-        - name: http-vhost-port
-          containerPort: 8000 # For http
-        - name: grpc-vhost-port
-          containerPort: 8001 # For grpc
-        volumeMounts:
-        - name: nginx-conf
-          mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
-        - name: nginx-conf
-          mountPath: /etc/nginx/conf.d/default.conf
-          subPath: default.conf
-        - name: nginx-conf
-          mountPath: /etc/nginx/conf.d/vhost.conf
-          subPath: vhost.conf
-        - name: nginx-conf
-          mountPath: /etc/nginx/conf.d/vhost.grpc.conf
-          subPath: vhost.grpc.conf
-      volumes:
-      - name: nginx-conf
-        configMap:
-          name: auth-nginx-conf
-          items:
-          - key: nginx.conf
-            path: nginx.conf
-          - key: default.conf
-            path: default.conf
-          - key: vhost.conf
-            path: vhost.conf
-          - key: vhost.grpc.conf
-            path: vhost.grpc.conf
       

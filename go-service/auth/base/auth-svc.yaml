@@ -8,11 +8,11 @@ spec:
   - name: http-port
     port: 80
     protocol: TCP
-    targetPort: 8000
+    targetPort: 8080
   - name: grpc-port
     port: 81
     protocol: TCP
-    targetPort: 8001
+    targetPort: 8180
   selector:
     app: auth
   type: ClusterIP
@@ -28,11 +28,11 @@ spec:
   - name: http-port
     port: 80
     protocol: TCP
-    targetPort: 8000
+    targetPort: 8080
   - name: grpc-port
     port: 81
     protocol: TCP
-    targetPort: 8001
+    targetPort: 8180
   selector:
     app: auth
   type: ClusterIP

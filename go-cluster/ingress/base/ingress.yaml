@@ -3,6 +3,50 @@ kind: Ingress
 metadata:
   name: app-ingress
   namespace: app
+  # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md
+  annotations:
+    nginx.ingress.kubernetes.io/server-snippet: |
+      set        $cors_origin  '*';
+      set        $cors_headers 'Authorization, Content-Type, Accept, X-Idempotent';
+      set        $cors_methods 'POST, GET, PUT, PATCH, DELETE, OPTIONS, HEAD';
+      add_header Access-Control-Allow-Origin $cors_origin always;
+      add_header Access-Control-Allow-Headers $cors_headers always;
+      add_header Access-Control-Allow-Methods $cors_methods always;
+      if ($request_method = HEAD) {
+        return 200;
+      }
+      if ($request_method = OPTIONS) {
+        return 200;
+      }
+    nginx.ingress.kubernetes.io/auth-url: "http://auth.app.svc.cluster.local/permission"
+    nginx.ingress.kubernetes.io/auth-snippet: |
+      if ($host = "vue3.go-cinch.top") {
+          return 200;
+      }
+      if ($host = "react.go-cinch.top") {
+          return 200;
+      }
+      if ($host = "asynqmon.go-cinch.top") {
+          return 200;
+      }
+      if ($request_uri ~* ^/api/([^/]+)/pub/(.*)) {
+        return 200;
+      }
+      set $permission_uri "";
+      if ($request_uri ~* ^/api/([^?]*)) {
+        set $permission_uri /$1;
+      }
+      proxy_set_header X-Permission-URI $permission_uri;
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      absolute_redirect  off;
+      add_header         Access-Control-Allow-Origin $cors_origin always;
+      add_header         Access-Control-Allow-Headers $cors_headers always;
+      add_header         Access-Control-Allow-Methods $cors_methods always;
+      
+      rewrite ^/api/auth/pub/(.*)$ /pub/$1 break;
+      rewrite ^/api/auth/(.*)$ /$1 break;
+      rewrite ^/api/oss/pub/(.*)$ /pub/$1 break;
+      rewrite ^/api/oss/(.*)$ /$1 break;
 spec:
   tls:
   - secretName: app-ingress-tls
@@ -11,11 +55,25 @@ spec:
   - host: "app.go-cinch.top"
     http:
       paths:
+      - path: /api/auth/pub/
+        pathType: Prefix
+        backend:
+          service:
+            name: auth
+            port:
+              number: 80
       - path: /api/auth/
         pathType: Prefix
         backend:
           service:
             name: auth
+            port:
+              number: 80
+      - path: /api/oss/pub/
+        pathType: Prefix
+        backend:
+          service:
+            name: oss
             port:
               number: 80
       - path: /api/oss/
