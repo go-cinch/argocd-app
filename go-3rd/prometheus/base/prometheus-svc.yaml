@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: prometheus
+spec:
+  ports:
+  - name: http-prometheus
+    port: 80
+    targetPort: http-prometheus
+  selector:
+    app: prometheus
+  type: ClusterIP
+---
+# canary svc
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-canary
+  namespace: prometheus
+spec:
+  ports:
+  - name: http-prometheus
+    port: 80
+    targetPort: http-prometheus
+  selector:
+    app: prometheus
+  type: ClusterIP

@@ -1,0 +1,67 @@
+# https://prometheus.com/docs/prometheus/latest/setup-prometheus/installation/kubernetes/
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: prometheus
+  namespace: prometheus
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: prometheus
+  # rollout strategy
+  strategy:
+    canary:
+      canaryService: prometheus-canary
+      stableService: prometheus
+      trafficRouting:
+        nginx:
+          stableIngress: prometheus-ingress
+          # add canary header
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
+            canary-by-header-value: iwantsit
+      steps:
+      - setWeight: 5
+      - pause: {}
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.54.1
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 65534
+          runAsGroup: 65534
+          fsGroup: 65534
+        ports:
+        - containerPort: 9090
+          name: http-prometheus
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 50m
+            memory: 750Mi
+        command:
+        - '/bin/sh'
+        - '-c'
+        - 'exec /bin/prometheus --config.file=/usr/local/etc/prometheus/prometheus.yaml'
+        volumeMounts:
+        - name: prometheus-pod-conf
+          mountPath: /usr/local/etc/prometheus/prometheus.yaml
+          subPath: prometheus.yaml
+      volumes:
+      - name: prometheus-pod-conf
+        configMap:
+          name: prometheus-conf
+          items:
+          - key: prometheus.yaml
+            path: prometheus.yaml

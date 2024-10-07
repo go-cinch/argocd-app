@@ -5,10 +5,11 @@ resources:
 - templates/ingress.yaml
 - templates/redis.yaml
 - templates/mysql.yaml
+- templates/prometheus.yaml
+- templates/grafana.yaml
 - templates/auth.yaml
 - templates/vue3.yaml
 - templates/react.yaml
 - templates/asynqmon.yaml
-- templates/grafana.yaml
 - templates/minio.yaml
 - templates/oss.yaml

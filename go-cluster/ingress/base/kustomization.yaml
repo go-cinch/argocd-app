@@ -15,6 +15,12 @@ secretGenerator:
   - tls.key=certs/server.key
   type: kubernetes.io/tls
   namespace: grafana
+- name: prometheus-ingress-tls
+  files:
+  - tls.crt=certs/server.pem
+  - tls.key=certs/server.key
+  type: kubernetes.io/tls
+  namespace: prometheus
 - name: minio-ingress-tls
   files:
   - tls.crt=certs/server.pem
