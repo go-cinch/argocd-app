@@ -8,3 +8,4 @@ configMapGenerator:
   behavior: merge
   envs:
   - ./env/db.env
+  - ./env/misc.env
