@@ -30,7 +30,7 @@ spec:
         app: vue3
     spec:
       containers:
-      - image: ghcr.io/go-cinch/pc-vue3@sha256:39e7cff64fd8a25cf9ee73cb283771e8a1f54d753ef19d30eecb525b0abbbd3c
+      - image: ghcr.io/go-cinch/pc-vue3@sha256:a4cb559b5215ba8812cfb62137c8d2fb79bd5af5bd0874cc375eb9af9fb0275d
         imagePullPolicy: Always
         name: vue3
         resources:
