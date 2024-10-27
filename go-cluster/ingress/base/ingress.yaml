@@ -29,6 +29,9 @@ metadata:
       if ($host = "asynqmon.go-cinch.top") {
           return 200;
       }
+      if ($request_uri ~* ^/api/ocr/(.*)) {
+        return 200;
+      }
       if ($request_uri ~* ^/api/([^/]+)/pub/(.*)) {
         return 200;
       }
@@ -81,6 +84,13 @@ spec:
         backend:
           service:
             name: oss
+            port:
+              number: 80
+      - path: /api/ocr/
+        pathType: Prefix
+        backend:
+          service:
+            name: ocr
             port:
               number: 80
   - host: 'vue3.go-cinch.top'

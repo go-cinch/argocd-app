@@ -1,0 +1,106 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: ocr
+  namespace: app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  # rollout strategy
+  strategy:
+    canary:
+      canaryService: ocr-canary
+      stableService: ocr
+      trafficRouting:
+        nginx:
+          stableIngress: app-ingress
+          # add canary header
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
+            canary-by-header-value: iwantsit
+      steps:
+      - setWeight: 5
+      - pause: {}
+  selector:
+    matchLabels:
+      app: ocr
+  template:
+    metadata:
+      labels:
+        app: ocr
+    spec:
+      containers:
+      - image: ghcr.io/go-cinch/ocr@sha256:3128d8b5ed29c1882dde8abe1210f65c14847ed9e62d193a8997708208b093c0
+        imagePullPolicy: Always
+        name: ocr
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        resources:
+          requests:
+            cpu: 50m
+            memory: 300Mi
+        ports:
+        - name: http-port
+          containerPort: 8080 # For http
+        volumeMounts:
+        - name: det-conf
+          mountPath: /ocr/PaddleOCR/models/det/inference.pdiparams
+          subPath: inference.pdiparams
+        - name: det-conf
+          mountPath: /ocr/PaddleOCR/models/det/inference.pdiparams.info
+          subPath: inference.pdiparams.info
+        - name: det-conf
+          mountPath: /ocr/PaddleOCR/models/det/inference.pdmodel
+          subPath: inference.pdmodel
+        - name: rec-conf
+          mountPath: /ocr/PaddleOCR/models/rec/inference.pdiparams
+          subPath: inference.pdiparams
+        - name: rec-conf
+          mountPath: /ocr/PaddleOCR/models/rec/inference.pdiparams.info
+          subPath: inference.pdiparams.info
+        - name: rec-conf
+          mountPath: /ocr/PaddleOCR/models/rec/inference.pdmodel
+          subPath: inference.pdmodel
+        - name: app-conf
+          mountPath: /ocr/PaddleOCR/deploy/hubserving/ocr_system/config.json
+          subPath: config.json
+        - name: app-conf
+          mountPath: /ocr/PaddleOCR/deploy/hubserving/ocr_system/module.py
+          subPath: module.py
+        - name: app-conf
+          mountPath: /ocr/PaddleOCR/deploy/hubserving/ocr_system/params.py
+          subPath: params.py
+      volumes:
+      - name: det-conf
+        configMap:
+          name: ocr-det-conf
+          items:
+          - key: inference.pdiparams
+            path: inference.pdiparams
+          - key: inference.pdiparams.info
+            path: inference.pdiparams.info
+          - key: inference.pdmodel
+            path: inference.pdmodel
+      - name: rec-conf
+        configMap:
+          name: ocr-rec-conf
+          items:
+          - key: inference.pdiparams
+            path: inference.pdiparams
+          - key: inference.pdiparams.info
+            path: inference.pdiparams.info
+          - key: inference.pdmodel
+            path: inference.pdmodel
+      - name: app-conf
+        configMap:
+          name: ocr-app-conf
+          items:
+          - key: config.json
+            path: config.json
+          - key: module.py
+            path: module.py
+          - key: params.py
+            path: params.py

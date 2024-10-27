@@ -13,3 +13,4 @@ resources:
 - templates/asynqmon.yaml
 - templates/minio.yaml
 - templates/oss.yaml
+- templates/ocr.yaml
