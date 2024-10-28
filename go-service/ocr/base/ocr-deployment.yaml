@@ -29,6 +29,25 @@ spec:
       labels:
         app: ocr
     spec:
+      initContainers:
+      - name: download-models
+        image: curlimages/curl
+        command:
+        - "sh"
+        - "-c"
+        - |
+          mkdir -p /data/det /data/rec
+          curl -o /data/det/inference.pdiparams https://raw.githubusercontent.com/go-cinch/infer-models/118e4a3f49ee5c0ebefcf7150538aa2b7995a932/ocr/det/inference.pdiparams
+          curl -o /data/det/inference.pdiparams.info https://raw.githubusercontent.com/go-cinch/infer-models/118e4a3f49ee5c0ebefcf7150538aa2b7995a932/ocr/det/inference.pdiparams.info
+          curl -o /data/det/inference.pdmodel https://raw.githubusercontent.com/go-cinch/infer-models/118e4a3f49ee5c0ebefcf7150538aa2b7995a932/ocr/det/inference.pdmodel
+          curl -o /data/rec/inference.pdiparams https://raw.githubusercontent.com/go-cinch/infer-models/118e4a3f49ee5c0ebefcf7150538aa2b7995a932/ocr/rec/inference.pdiparams
+          curl -o /data/rec/inference.pdiparams.info https://raw.githubusercontent.com/go-cinch/infer-models/118e4a3f49ee5c0ebefcf7150538aa2b7995a932/ocr/rec/inference.pdiparams.info
+          curl -o /data/rec/inference.pdmodel https://raw.githubusercontent.com/go-cinch/infer-models/118e4a3f49ee5c0ebefcf7150538aa2b7995a932/ocr/rec/inference.pdmodel
+        volumeMounts:
+        - name: ocr-pv
+          mountPath: /data
+        securityContext:
+          runAsUser: 0
       containers:
       - image: ghcr.io/go-cinch/ocr@sha256:3128d8b5ed29c1882dde8abe1210f65c14847ed9e62d193a8997708208b093c0
         imagePullPolicy: Always
@@ -46,24 +65,6 @@ spec:
         - name: http-port
           containerPort: 8080 # For http
         volumeMounts:
-        - name: det-conf
-          mountPath: /ocr/PaddleOCR/models/det/inference.pdiparams
-          subPath: inference.pdiparams
-        - name: det-conf
-          mountPath: /ocr/PaddleOCR/models/det/inference.pdiparams.info
-          subPath: inference.pdiparams.info
-        - name: det-conf
-          mountPath: /ocr/PaddleOCR/models/det/inference.pdmodel
-          subPath: inference.pdmodel
-        - name: rec-conf
-          mountPath: /ocr/PaddleOCR/models/rec/inference.pdiparams
-          subPath: inference.pdiparams
-        - name: rec-conf
-          mountPath: /ocr/PaddleOCR/models/rec/inference.pdiparams.info
-          subPath: inference.pdiparams.info
-        - name: rec-conf
-          mountPath: /ocr/PaddleOCR/models/rec/inference.pdmodel
-          subPath: inference.pdmodel
         - name: app-conf
           mountPath: /ocr/PaddleOCR/deploy/hubserving/ocr_system/config.json
           subPath: config.json
@@ -73,27 +74,9 @@ spec:
         - name: app-conf
           mountPath: /ocr/PaddleOCR/deploy/hubserving/ocr_system/params.py
           subPath: params.py
+        - name: ocr-pv
+          mountPath: /ocr/PaddleOCR/models
       volumes:
-      - name: det-conf
-        configMap:
-          name: ocr-det-conf
-          items:
-          - key: inference.pdiparams
-            path: inference.pdiparams
-          - key: inference.pdiparams.info
-            path: inference.pdiparams.info
-          - key: inference.pdmodel
-            path: inference.pdmodel
-      - name: rec-conf
-        configMap:
-          name: ocr-rec-conf
-          items:
-          - key: inference.pdiparams
-            path: inference.pdiparams
-          - key: inference.pdiparams.info
-            path: inference.pdiparams.info
-          - key: inference.pdmodel
-            path: inference.pdmodel
       - name: app-conf
         configMap:
           name: ocr-app-conf
@@ -104,3 +87,6 @@ spec:
             path: module.py
           - key: params.py
             path: params.py
+      - name: ocr-pv
+        persistentVolumeClaim:
+          claimName: ocr-pvc

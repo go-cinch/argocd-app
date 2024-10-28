@@ -1,0 +1,33 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ocr
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ocr-pv
+  labels:
+    type: local
+spec:
+  storageClassName: ocr
+  capacity:
+    storage: 50Mi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/ocr"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ocr-pvc
+spec:
+  storageClassName: ocr
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi

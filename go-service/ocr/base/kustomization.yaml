@@ -6,17 +6,8 @@ configurations:
 resources:
 - ocr-deployment.yaml
 - ocr-svc.yaml
+- ocr-pvc.yaml
 configMapGenerator:
-- name: ocr-det-conf
-  files:
-  - conf/models/det/inference.pdiparams
-  - conf/models/det/inference.pdiparams.info
-  - conf/models/det/inference.pdmodel
-- name: ocr-rec-conf
-  files:
-  - conf/models/rec/inference.pdiparams
-  - conf/models/rec/inference.pdiparams.info
-  - conf/models/rec/inference.pdmodel
 - name: ocr-app-conf
   files:
   - conf/ocr_system/config.json
