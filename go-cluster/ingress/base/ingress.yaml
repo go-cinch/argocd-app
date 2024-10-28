@@ -50,6 +50,7 @@ metadata:
       rewrite ^/api/auth/(.*)$ /$1 break;
       rewrite ^/api/oss/pub/(.*)$ /pub/$1 break;
       rewrite ^/api/oss/(.*)$ /$1 break;
+      rewrite ^/api/ocr/(.*)$ /$1 break;
 spec:
   tls:
   - secretName: app-ingress-tls
