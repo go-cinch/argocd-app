@@ -14,7 +14,7 @@ metadata:
 spec:
   storageClassName: ocr
   capacity:
-    storage: 50Mi
+    storage: 200Mi
   accessModes:
   - ReadWriteOnce
   hostPath:
