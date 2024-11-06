@@ -23,6 +23,7 @@ spec:
     targetRevision: main
   # ignore when value changed
   ignoreDifferences:
-  - kind: Rollout
+  - groups: argoproj.io
+    kind: Rollout
     jsonPointers:
       - /spec/replicas
