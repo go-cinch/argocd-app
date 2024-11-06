@@ -21,3 +21,8 @@ spec:
     path: go-service/ocr/overlays/dev
     repoURL: https://github.com/go-cinch/argocd-app.git
     targetRevision: main
+  # ignore when value changed
+  ignoreDifferences:
+  - kind: Rollout
+    jsonPointers:
+      - /spec/replicas
