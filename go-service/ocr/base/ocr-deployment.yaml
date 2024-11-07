@@ -37,12 +37,12 @@ spec:
         - "-c"
         - |
           mkdir -p /data/det /data/rec
-          curl -o /data/det/inference.pdiparams https://raw.githubusercontent.com/go-cinch/infer-models/d0f226e4df89d4c0d155e78bc874d9153004b133/ocr/det/inference.pdiparams
-          curl -o /data/det/inference.pdiparams.info https://raw.githubusercontent.com/go-cinch/infer-models/d0f226e4df89d4c0d155e78bc874d9153004b133/ocr/det/inference.pdiparams.info
-          curl -o /data/det/inference.pdmodel https://raw.githubusercontent.com/go-cinch/infer-models/d0f226e4df89d4c0d155e78bc874d9153004b133/ocr/det/inference.pdmodel
-          curl -o /data/rec/inference.pdiparams https://raw.githubusercontent.com/go-cinch/infer-models/d0f226e4df89d4c0d155e78bc874d9153004b133/ocr/rec/inference.pdiparams
-          curl -o /data/rec/inference.pdiparams.info https://raw.githubusercontent.com/go-cinch/infer-models/d0f226e4df89d4c0d155e78bc874d9153004b133/ocr/rec/inference.pdiparams.info
-          curl -o /data/rec/inference.pdmodel https://raw.githubusercontent.com/go-cinch/infer-models/d0f226e4df89d4c0d155e78bc874d9153004b133/ocr/rec/inference.pdmodel
+          curl -o /data/det/inference.pdiparams https://raw.githubusercontent.com/go-cinch/infer-models/becc08df884ab48168611d84f60be443011e6133/ocr/det/inference.pdiparams
+          curl -o /data/det/inference.pdiparams.info https://raw.githubusercontent.com/go-cinch/infer-models/becc08df884ab48168611d84f60be443011e6133/ocr/det/inference.pdiparams.info
+          curl -o /data/det/inference.pdmodel https://raw.githubusercontent.com/go-cinch/infer-models/becc08df884ab48168611d84f60be443011e6133/ocr/det/inference.pdmodel
+          curl -o /data/rec/inference.pdiparams https://raw.githubusercontent.com/go-cinch/infer-models/becc08df884ab48168611d84f60be443011e6133/ocr/rec/inference.pdiparams
+          curl -o /data/rec/inference.pdiparams.info https://raw.githubusercontent.com/go-cinch/infer-models/becc08df884ab48168611d84f60be443011e6133/ocr/rec/inference.pdiparams.info
+          curl -o /data/rec/inference.pdmodel https://raw.githubusercontent.com/go-cinch/infer-models/becc08df884ab48168611d84f60be443011e6133/ocr/rec/inference.pdmodel
         volumeMounts:
         - name: ocr-pv
           mountPath: /data
