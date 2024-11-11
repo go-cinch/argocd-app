@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocr-vue3
+  namespace: app
+spec:
+  ports:
+  - name: http-port
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ocr-vue3
+  type: ClusterIP
+---
+# canary svc
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocr-vue3-canary
+  namespace: app
+spec:
+  ports:
+  - name: http-port
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ocr-vue3
+  type: ClusterIP

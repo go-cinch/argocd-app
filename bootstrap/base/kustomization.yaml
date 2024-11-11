@@ -14,3 +14,4 @@ resources:
 - templates/minio.yaml
 - templates/oss.yaml
 - templates/ocr.yaml
+- templates/ocr-vue3.yaml

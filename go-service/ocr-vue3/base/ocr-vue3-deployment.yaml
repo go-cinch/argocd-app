@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: ocr-vue3
+  namespace: app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  # rollout strategy
+  strategy:
+    canary:
+      canaryService: ocr-vue3-canary
+      stableService: ocr-vue3
+      trafficRouting:
+        nginx:
+          stableIngress: app-ingress
+          # add canary header
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
+            canary-by-header-value: iwantsit
+      steps:
+      - setWeight: 5
+      - pause: {}
+  selector:
+    matchLabels:
+      app: ocr-vue3
+  template:
+    metadata:
+      labels:
+        app: ocr-vue3
+    spec:
+      containers:
+      - image: ghcr.io/go-cinch/ocr-vue3@sha256:77af23be6a69cdee8f58409706a18dce6144b4d0306e10016e5b215083383176
+        imagePullPolicy: Always
+        name: ocr-vue3
+        resources:
+          requests:
+            cpu: 50m
+            memory: 300Mi
+        ports:
+        - name: http-port
+          containerPort: 80 # For http
+        volumeMounts:
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d/vhost.conf
+          subPath: vhost.conf
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: ocr-vue3-nginx-conf
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+          - key: vhost.conf
+            path: vhost.conf

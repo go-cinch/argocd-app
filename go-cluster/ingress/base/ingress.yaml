@@ -23,6 +23,9 @@ metadata:
       if ($host = "vue3.go-cinch.top") {
           return 200;
       }
+      if ($host = "ocr.go-cinch.top") {
+          return 200;
+      }
       if ($host = "react.go-cinch.top") {
           return 200;
       }
@@ -102,6 +105,16 @@ spec:
         backend:
           service:
             name: vue3
+            port:
+              number: 80
+  - host: 'ocr.go-cinch.top'
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ocr-vue3
             port:
               number: 80
   - host: 'react.go-cinch.top'
