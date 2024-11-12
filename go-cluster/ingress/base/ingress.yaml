@@ -5,7 +5,6 @@ metadata:
   namespace: app
   # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/annotations.md
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 100m
     nginx.ingress.kubernetes.io/server-snippet: |
       set        $cors_origin  '*';
       set        $cors_headers 'Authorization, Content-Type, Accept, X-Idempotent';
@@ -210,6 +209,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
     ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
 spec:
   tls:
   - secretName: minio-ingress-tls
