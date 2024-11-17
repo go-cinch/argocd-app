@@ -37,19 +37,16 @@ spec:
         - "-c"
         - |
           mkdir -p /data/det /data/rec
-          curl -o /data/det/inference.pdiparams https://raw.githubusercontent.com/go-cinch/infer-models/c7a918ab6155d5b426c6ea26101874901a880b07/ocr/det/inference.pdiparams
-          curl -o /data/det/inference.pdiparams.info https://raw.githubusercontent.com/go-cinch/infer-models/c7a918ab6155d5b426c6ea26101874901a880b07/ocr/det/inference.pdiparams.info
-          curl -o /data/det/inference.pdmodel https://raw.githubusercontent.com/go-cinch/infer-models/c7a918ab6155d5b426c6ea26101874901a880b07/ocr/det/inference.pdmodel
-          curl -o /data/rec/inference.pdiparams https://raw.githubusercontent.com/go-cinch/infer-models/c7a918ab6155d5b426c6ea26101874901a880b07/ocr/rec/inference.pdiparams
-          curl -o /data/rec/inference.pdiparams.info https://raw.githubusercontent.com/go-cinch/infer-models/c7a918ab6155d5b426c6ea26101874901a880b07/ocr/rec/inference.pdiparams.info
-          curl -o /data/rec/inference.pdmodel https://raw.githubusercontent.com/go-cinch/infer-models/c7a918ab6155d5b426c6ea26101874901a880b07/ocr/rec/inference.pdmodel
+          curl -o /data/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/5d331cdc7a7c94df542ab4e763d353a0c02d4c6a/ocr/det/inference.pdiparams
+          curl -o /data/rec/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/5d331cdc7a7c94df542ab4e763d353a0c02d4c6a/ocr/rec/inference.pdiparams
+          curl -o /data/cls/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/5d331cdc7a7c94df542ab4e763d353a0c02d4c6a/ocr/cls/inference.pdiparams
         volumeMounts:
         - name: ocr-pv
           mountPath: /data
         securityContext:
           runAsUser: 0
       containers:
-      - image: ghcr.io/go-cinch/ocr@sha256:3128d8b5ed29c1882dde8abe1210f65c14847ed9e62d193a8997708208b093c0
+      - image: ghcr.io/go-cinch/ocr@sha256:2a40391031abff56c4bf1db5a59f18dcc63221f09cc90568dac905943df1f92a
         imagePullPolicy: Always
         name: ocr
         env:
@@ -65,28 +62,9 @@ spec:
         - name: http-port
           containerPort: 8080 # For http
         volumeMounts:
-        - name: app-conf
-          mountPath: /ocr/PaddleOCR/deploy/hubserving/ocr_system/config.json
-          subPath: config.json
-        - name: app-conf
-          mountPath: /ocr/PaddleOCR/deploy/hubserving/ocr_system/module.py
-          subPath: module.py
-        - name: app-conf
-          mountPath: /ocr/PaddleOCR/deploy/hubserving/ocr_system/params.py
-          subPath: params.py
         - name: ocr-pv
-          mountPath: /ocr/PaddleOCR/models
+          mountPath: /ocr/models
       volumes:
-      - name: app-conf
-        configMap:
-          name: ocr-app-conf
-          items:
-          - key: config.json
-            path: config.json
-          - key: module.py
-            path: module.py
-          - key: params.py
-            path: params.py
       - name: ocr-pv
         persistentVolumeClaim:
           claimName: ocr-pvc
