@@ -37,9 +37,9 @@ spec:
         - "-c"
         - |
           mkdir -p /data/det /data/rec /data/cls
-          curl -o /data/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/5d331cdc7a7c94df542ab4e763d353a0c02d4c6a/ocr/det/inference.pdiparams
-          curl -o /data/rec/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/5d331cdc7a7c94df542ab4e763d353a0c02d4c6a/ocr/rec/inference.pdiparams
-          curl -o /data/cls/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/5d331cdc7a7c94df542ab4e763d353a0c02d4c6a/ocr/cls/inference.pdiparams
+          curl -o /data/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/5d331cdc7a7c94df542ab4e763d353a0c02d4c6a/ocr/det/inference.onnx
+          curl -o /data/rec/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/5d331cdc7a7c94df542ab4e763d353a0c02d4c6a/ocr/rec/inference.onnx
+          curl -o /data/cls/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/5d331cdc7a7c94df542ab4e763d353a0c02d4c6a/ocr/cls/inference.onnx
         volumeMounts:
         - name: ocr-pv
           mountPath: /data
