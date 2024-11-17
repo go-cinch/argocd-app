@@ -8,9 +8,3 @@ resources:
 - ocr-svc.yaml
 - ocr-pvc.yaml
 - ocr-hpa.yaml
-configMapGenerator:
-- name: ocr-app-conf
-  files:
-  - conf/ocr_system/config.json
-  - conf/ocr_system/module.py
-  - conf/ocr_system/params.py
