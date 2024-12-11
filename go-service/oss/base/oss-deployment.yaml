@@ -30,7 +30,7 @@ spec:
         app: oss
     spec:
       containers:
-      - image: ghcr.io/go-cinch/oss@sha256:e4a5c88c9ff472fb19e948cf18bba54fe30274684ae3c62262110bda6d8f9045
+      - image: ghcr.io/go-cinch/oss@sha256:0885ab0548dc6995a082c9dec7257e84a22892a47ab3c331b2e5b6c0ab8f78cc
         imagePullPolicy: Always
         name: oss
         env:
