@@ -36,17 +36,19 @@ spec:
         - "sh"
         - "-c"
         - |
-          mkdir -p /data/det /data/rec /data/cls
-          curl -o /data/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/a9c2d333fd50c9dd6e2cf1cb168105b14091d68d/ocr/det/inference.onnx
-          curl -o /data/rec/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/a9c2d333fd50c9dd6e2cf1cb168105b14091d68d/ocr/rec/inference.onnx
-          curl -o /data/cls/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/a9c2d333fd50c9dd6e2cf1cb168105b14091d68d/ocr/cls/inference.onnx
+          mkdir -p /data/ocr/det /data/ocr/rec /data/ocr/cls /data/helmet/det
+          curl -o /data/ocr/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/det/inference.onnx
+          curl -o /data/ocr/rec/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/rec/inference.onnx
+          curl -o /data/ocr/cls/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/cls/inference.onnx
+          curl -o /data/helmet/det/infer_cfg.yml https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/helmet/det/infer_cfg.yml
+          curl -o /data/helmet/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/helmet/det/inference.onnx
         volumeMounts:
         - name: ocr-pv
           mountPath: /data
         securityContext:
           runAsUser: 0
       containers:
-      - image: ghcr.io/go-cinch/ocr@sha256:a6751c0ab5e2c1521ad88ccf9b035460c6e7030874db004ab176cee19533b5bd
+      - image: ghcr.io/go-cinch/ocr@sha256:07be847a2d7ed9c3ae6e83a7add4a25b1ad8af7bd2c42a8701839a6d289a3f58
         imagePullPolicy: Always
         name: ocr
         env:
@@ -63,7 +65,7 @@ spec:
           containerPort: 8080 # For http
         volumeMounts:
         - name: ocr-pv
-          mountPath: /ocr/models
+          mountPath: /app/models
       volumes:
       - name: ocr-pv
         persistentVolumeClaim:
