@@ -37,11 +37,37 @@ spec:
         - "-c"
         - |
           mkdir -p /data/ocr/det /data/ocr/rec /data/ocr/cls /data/helmet/det
-          curl -o /data/ocr/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/det/inference.onnx
-          curl -o /data/ocr/rec/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/rec/inference.onnx
-          curl -o /data/ocr/cls/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/cls/inference.onnx
-          curl -o /data/helmet/det/infer_cfg.yml https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/helmet/det/infer_cfg.yml
-          curl -o /data/helmet/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/helmet/det/inference.onnx
+          if [ ! -f /data/ocr/det/inference.onnx ]; then
+            echo "ocr/det/inference.onnx not exist, downloading..."
+            curl -o /data/ocr/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/det/inference.onnx
+          else
+            echo "ocr/det/inference.onnx already exists, skipping download."
+          fi
+          if [ ! -f /data/ocr/rec/inference.onnx ]; then
+            echo "ocr/rec/inference.onnx not exist, downloading..."
+            curl -o /data/ocr/rec/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/rec/inference.onnx
+          else
+            echo "ocr/rec/inference.onnx already exists, skipping download."
+          fi
+          if [ ! -f /data/ocr/cls/inference.onnx ]; then
+            echo "ocr/cls/inference.onnx not exist, downloading..."
+            curl -o /data/ocr/cls/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/cls/inference.onnx
+          else
+            echo "ocr/cls/inference.onnx already exists, skipping download."
+          fi
+          
+          if [ ! -f /data/helmet/det/infer_cfg.yml ]; then
+            echo "helmet/det/infer_cfg.yml not exist, downloading..."
+            curl -o /data/helmet/det/infer_cfg.yml https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/helmet/det/infer_cfg.yml
+          else
+            echo "helmet/det/infer_cfg.yml already exists, skipping download."
+          fi
+          if [ ! -f /data/helmet/det/inference.onnx ]; then
+            echo "helmet/det/inference.onnx not exist, downloading..."
+            curl -o /data/helmet/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/helmet/det/inference.onnx
+          else
+            echo "helmet/det/inference.onnx already exists, skipping download."
+          fi
         volumeMounts:
         - name: ocr-pv
           mountPath: /data
