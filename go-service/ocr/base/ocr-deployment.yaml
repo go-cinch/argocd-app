@@ -99,7 +99,7 @@ spec:
           fi
           if [ ! -f /data/helmet/det/inference.onnx ]; then
             echo "helmet/det/inference.onnx not exist, downloading..."
-            curl -o /data/helmet/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/28dc41421f423231691f153bc80021009e242703/helmet/det/inference.onnx
+            curl -o /data/helmet/det/inference.onnx https://media.githubusercontent.com/media/go-cinch/infer-models/28dc41421f423231691f153bc80021009e242703/helmet/det/inference.onnx
           else
             echo "helmet/det/inference.onnx already exists, skipping download."
           fi
