@@ -37,17 +37,38 @@ spec:
         - "-c"
         - |
           mkdir -p /data/ocr/det /data/ocr/rec /data/ocr/cls /data/helmet/det
+          if [ -f /data/ocr/det/inference.onnx ]; then
+            expected_md5="f051497ebaf5ed2efa86616bba8fac1e"
+            file_md5=$(md5sum /data/ocr/det/inference.onnx | awk '{print $1}')
+            if [ "$file_md5" != "$expected_md5" ]; then
+              rm -rf /data/ocr/det/inference.onnx
+            if
+          fi
           if [ ! -f /data/ocr/det/inference.onnx ]; then
             echo "ocr/det/inference.onnx not exist, downloading..."
             curl -o /data/ocr/det/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/det/inference.onnx
           else
             echo "ocr/det/inference.onnx already exists, skipping download."
           fi
+          if [ -f /data/ocr/rec/inference.onnx ]; then
+            expected_md5="70adc5cf104975757e4efd9803242afa"
+            file_md5=$(md5sum /data/ocr/rec/inference.onnx | awk '{print $1}')
+            if [ "$file_md5" != "$expected_md5" ]; then
+              rm -rf /data/ocr/rec/inference.onnx
+            if
+          fi
           if [ ! -f /data/ocr/rec/inference.onnx ]; then
             echo "ocr/rec/inference.onnx not exist, downloading..."
             curl -o /data/ocr/rec/inference.onnx https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/ocr/rec/inference.onnx
           else
             echo "ocr/rec/inference.onnx already exists, skipping download."
+          fi
+          if [ -f /data/ocr/cls/inference.onnx ]; then
+            expected_md5="eeb768914856e58800ce51640666a157"
+            file_md5=$(md5sum /data/ocr/cls/inference.onnx | awk '{print $1}')
+            if [ "$file_md5" != "$expected_md5" ]; then
+              rm -rf /data/ocr/cls/inference.onnx
+            if
           fi
           if [ ! -f /data/ocr/cls/inference.onnx ]; then
             echo "ocr/cls/inference.onnx not exist, downloading..."
@@ -56,11 +77,25 @@ spec:
             echo "ocr/cls/inference.onnx already exists, skipping download."
           fi
           
+          if [ -f /data/helmet/det/infer_cfg.yml ]; then
+            expected_md5="64b87d63d525d0d3565d328f10dbafbb"
+            file_md5=$(md5sum /data/helmet/det/infer_cfg.yml | awk '{print $1}')
+            if [ "$file_md5" != "$expected_md5" ]; then
+              rm -rf /data/helmet/det/infer_cfg.yml
+            if
+          fi
           if [ ! -f /data/helmet/det/infer_cfg.yml ]; then
             echo "helmet/det/infer_cfg.yml not exist, downloading..."
             curl -o /data/helmet/det/infer_cfg.yml https://raw.githubusercontent.com/go-cinch/infer-models/7a6395f73822b9cabfadb15139085c926d2ad730/helmet/det/infer_cfg.yml
           else
             echo "helmet/det/infer_cfg.yml already exists, skipping download."
+          fi
+          if [ -f /data/helmet/det/inference.onnx ]; then
+            expected_md5="847db94d4c3343e7b66b6d32a80cc1b1"
+            file_md5=$(md5sum /data/helmet/det/inference.onnx | awk '{print $1}')
+            if [ "$file_md5" != "$expected_md5" ]; then
+              rm -rf /data/helmet/det/inference.onnx
+            if
           fi
           if [ ! -f /data/helmet/det/inference.onnx ]; then
             echo "helmet/det/inference.onnx not exist, downloading..."
