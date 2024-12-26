@@ -86,12 +86,12 @@ spec:
           fi
           if [ ! -f /data/helmet/det/infer_cfg.yml ]; then
             echo "helmet/det/infer_cfg.yml not exist, downloading..."
-            curl -o /data/helmet/det/infer_cfg.yml https://raw.githubusercontent.com/go-cinch/infer-models/28dc41421f423231691f153bc80021009e242703/helmet/det/infer_cfg.yml
+            curl -o /data/helmet/det/infer_cfg.yml https://raw.githubusercontent.com/go-cinch/infer-models/e7b801292ce191d9223e58c0f29d328c62cd6bbc/helmet/det/infer_cfg.yml
           else
             echo "helmet/det/infer_cfg.yml already exists, skipping download."
           fi
           if [ -f /data/helmet/det/inference.onnx ]; then
-            expected_md5="847db94d4c3343e7b66b6d32a80cc1b1"
+            expected_md5="14c3237f3bf07cbedf0bc37edec9db48"
             file_md5=$(md5sum /data/helmet/det/inference.onnx | awk '{print $1}')
             if [ "$file_md5" != "$expected_md5" ]; then
               rm -rf /data/helmet/det/inference.onnx
@@ -99,7 +99,7 @@ spec:
           fi
           if [ ! -f /data/helmet/det/inference.onnx ]; then
             echo "helmet/det/inference.onnx not exist, downloading..."
-            curl -o /data/helmet/det/inference.onnx https://media.githubusercontent.com/media/go-cinch/infer-models/28dc41421f423231691f153bc80021009e242703/helmet/det/inference.onnx
+            curl -o /data/helmet/det/inference.onnx https://media.githubusercontent.com/media/go-cinch/infer-models/e7b801292ce191d9223e58c0f29d328c62cd6bbc/helmet/det/inference.onnx
           else
             echo "helmet/det/inference.onnx already exists, skipping download."
           fi
@@ -109,7 +109,7 @@ spec:
         securityContext:
           runAsUser: 0
       containers:
-      - image: ghcr.io/go-cinch/ocr@sha256:44072e5fe17a97713662fec717505b1615c087b79572d48e19a8de2d24427089
+      - image: ghcr.io/go-cinch/ocr@sha256:4996ffca6e7cacd08c16d3e1aeb0fafa7db3ec6e86aae8c0a0a938931256a70d
         imagePullPolicy: Always
         name: ocr
         env:
