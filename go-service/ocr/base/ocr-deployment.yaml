@@ -78,7 +78,7 @@ spec:
           fi
           
           if [ -f /data/helmet/det/infer_cfg.yml ]; then
-            expected_md5="64b87d63d525d0d3565d328f10dbafbb"
+            expected_md5="12973098981926b3fed7c0c57e51247a"
             file_md5=$(md5sum /data/helmet/det/infer_cfg.yml | awk '{print $1}')
             if [ "$file_md5" != "$expected_md5" ]; then
               rm -rf /data/helmet/det/infer_cfg.yml
@@ -86,7 +86,7 @@ spec:
           fi
           if [ ! -f /data/helmet/det/infer_cfg.yml ]; then
             echo "helmet/det/infer_cfg.yml not exist, downloading..."
-            curl -o /data/helmet/det/infer_cfg.yml https://raw.githubusercontent.com/go-cinch/infer-models/e7b801292ce191d9223e58c0f29d328c62cd6bbc/helmet/det/infer_cfg.yml
+            curl -o /data/helmet/det/infer_cfg.yml https://raw.githubusercontent.com/go-cinch/infer-models/1ab1d37f56ea68bcad8cc816288dcc5012a94904/helmet/det/infer_cfg.yml
           else
             echo "helmet/det/infer_cfg.yml already exists, skipping download."
           fi
