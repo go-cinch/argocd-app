@@ -109,7 +109,7 @@ spec:
         securityContext:
           runAsUser: 0
       containers:
-      - image: ghcr.io/go-cinch/ocr@sha256:4996ffca6e7cacd08c16d3e1aeb0fafa7db3ec6e86aae8c0a0a938931256a70d
+      - image: ghcr.io/go-cinch/ocr@sha256:9f0f4ba7a2d849358f64d9dcf9200e514d1f2e930f4bbabf197e292ee4ee9e3c
         imagePullPolicy: Always
         name: ocr
         env:
