@@ -91,7 +91,7 @@ spec:
             echo "helmet/det/infer_cfg.yml already exists, skipping download."
           fi
           if [ -f /data/helmet/det/inference.onnx ]; then
-            expected_md5="f160c6ad28158d3c099a0368473e157e"
+            expected_md5="17cfb8720cd004fdf89d63888538e74b"
             file_md5=$(md5sum /data/helmet/det/inference.onnx | awk '{print $1}')
             if [ "$file_md5" != "$expected_md5" ]; then
               rm -rf /data/helmet/det/inference.onnx
@@ -99,7 +99,7 @@ spec:
           fi
           if [ ! -f /data/helmet/det/inference.onnx ]; then
             echo "helmet/det/inference.onnx not exist, downloading..."
-            curl -o /data/helmet/det/inference.onnx https://media.githubusercontent.com/media/go-cinch/infer-models/2c59f4c117dd310df22d744c290ad6cd2ceb80a2/helmet/det/inference.onnx
+            curl -o /data/helmet/det/inference.onnx https://media.githubusercontent.com/media/go-cinch/infer-models/fe9282e738a5a617225b48947439eddafa8c6b59/helmet/det/inference.onnx
           else
             echo "helmet/det/inference.onnx already exists, skipping download."
           fi
