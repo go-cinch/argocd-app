@@ -30,7 +30,7 @@ spec:
         app: ocr-vue3
     spec:
       containers:
-      - image: ghcr.io/go-cinch/ocr-vue3@sha256:55b52b270b9859793258f10ba8cd60ff2eb2646ba77b6541fa2726466a0a297e
+      - image: ghcr.io/go-cinch/ocr-vue3@sha256:faad83965c4fc740fae57eb9639ad59879746b4c7fde278e620b9ba0039c89f4
         imagePullPolicy: Always
         name: ocr-vue3
         resources:
