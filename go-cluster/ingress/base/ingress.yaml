@@ -137,6 +137,16 @@ spec:
             name: asynqmon
             port:
               number: 80
+  - host: 'yolo.go-cinch.top'
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: yolo
+            port:
+              number: 80
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
