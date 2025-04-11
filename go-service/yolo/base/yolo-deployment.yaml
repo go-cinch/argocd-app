@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: yolo
+  namespace: app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  # rollout strategy
+  strategy:
+    canary:
+      canaryService: yolo-canary
+      stableService: yolo
+      trafficRouting:
+        nginx:
+          stableIngress: app-ingress
+          # add canary header
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
+            canary-by-header-value: iwantsit
+      steps:
+      - setWeight: 5
+      - pause: {}
+  selector:
+    matchLabels:
+      app: yolo
+  template:
+    metadata:
+      labels:
+        app: yolo
+    spec:
+      containers:
+      - image: ghcr.io/go-cinch/yolo-helmet@sha256:f11c5264a794cf0a594eea398a7f83a77a3e0238d4cd658c73ce4ce14d298cd3
+        imagePullPolicy: Always
+        name: yolo
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        envFrom:
+        - configMapRef:
+            name: yolo-configmap
+        resources:
+          requests:
+            cpu: 50m
+            memory: 300Mi
+        ports:
+        - name: http-port
+          containerPort: 8080 # For http
+        - name: grpc-port
+          containerPort: 8180 # For grpc

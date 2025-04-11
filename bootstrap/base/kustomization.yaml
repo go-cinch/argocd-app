@@ -15,3 +15,4 @@ resources:
 - templates/oss.yaml
 - templates/ocr.yaml
 - templates/ocr-vue3.yaml
+- templates/yolo.yaml
