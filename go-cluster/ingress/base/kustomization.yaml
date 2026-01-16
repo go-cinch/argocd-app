@@ -21,12 +21,12 @@ secretGenerator:
   - tls.key=certs/server.key
   type: kubernetes.io/tls
   namespace: prometheus
-- name: jaeger-ingress-tls
+- name: argocd-ingress-tls
   files:
   - tls.crt=certs/server.pem
   - tls.key=certs/server.key
   type: kubernetes.io/tls
-  namespace: jaeger
+  namespace: argocd
 - name: minio-ingress-tls
   files:
   - tls.crt=certs/server.pem
