@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - image: postgres:16-alpine
+        imagePullPolicy: Always
+        name: postgres
+        resources:
+          requests:
+            cpu: 50m
+            memory: 512Mi
+        env:
+        - name: POSTGRES_PASSWORD
+          value: root
+        ports:
+        - name: tcp-port
+          containerPort: 5432 # For tcp
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-data
+        emptyDir: {}
