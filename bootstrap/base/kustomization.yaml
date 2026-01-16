@@ -4,9 +4,10 @@ namespace: argocd
 resources:
 - templates/ingress.yaml
 - templates/redis.yaml
-- templates/mysql.yaml
+- templates/postgres.yaml
 - templates/prometheus.yaml
 - templates/grafana.yaml
+- templates/tempo.yaml
 - templates/auth.yaml
 - templates/vue3.yaml
 - templates/react.yaml
