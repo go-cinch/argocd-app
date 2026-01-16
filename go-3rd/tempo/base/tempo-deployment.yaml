@@ -1,0 +1,48 @@
+# https://grafana.com/docs/tempo/latest/setup/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tempo
+  namespace: tempo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tempo
+  template:
+    metadata:
+      labels:
+        app: tempo
+    spec:
+      containers:
+      - name: tempo
+        image: grafana/tempo:2.3.1
+        imagePullPolicy: IfNotPresent
+        args: ["-config.file=/etc/tempo/tempo.yaml"]
+        ports:
+        - name: otlp-grpc
+          containerPort: 4317
+          protocol: TCP
+        - name: http
+          containerPort: 3200
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 50m
+            memory: 200Mi
+          limits:
+            cpu: 200m
+            memory: 500Mi
+        volumeMounts:
+        - name: tempo-config
+          mountPath: /etc/tempo
+          readOnly: true
+        - name: tempo-storage
+          mountPath: /var/tempo
+      volumes:
+      - name: tempo-config
+        configMap:
+          name: tempo-config
+      - name: tempo-storage
+        emptyDir: {}
+
