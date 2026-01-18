@@ -1,0 +1,588 @@
+# APISIX Route Configurations
+# Migrated from Ingress nginx to Apache APISIX
+
+---
+# ====================
+# Simple Frontend Routes
+# ====================
+
+# Vue3 Frontend
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: vue3-route
+  namespace: app
+spec:
+  http:
+  - name: vue3
+    match:
+      hosts:
+      - vue3.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: vue3
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+
+---
+# OCR Vue3 Frontend
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: ocr-vue3-route
+  namespace: app
+spec:
+  http:
+  - name: ocr-vue3
+    match:
+      hosts:
+      - ocr.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: ocr-vue3
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+
+---
+# React Frontend
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: react-route
+  namespace: app
+spec:
+  http:
+  - name: react
+    match:
+      hosts:
+      - react.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: react
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+
+---
+# Asynqmon Frontend
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: asynqmon-route
+  namespace: app
+spec:
+  http:
+  - name: asynqmon
+    match:
+      hosts:
+      - asynqmon.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: asynqmon
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+
+---
+# YOLO Frontend
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: yolo-route
+  namespace: app
+spec:
+  http:
+  - name: yolo
+    match:
+      hosts:
+      - yolo.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: yolo
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+
+---
+# ====================
+# Auth Service API Routes with Authentication
+# ====================
+
+# Auth Public API (no authentication required)
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: auth-pub-route
+  namespace: app
+spec:
+  http:
+  - name: auth-pub
+    match:
+      hosts:
+      - app.go-cinch.top
+      paths:
+      - /api/auth/pub/*
+    backends:
+    - serviceName: auth
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+    - name: proxy-rewrite
+      enable: true
+      config:
+        regex_uri:
+        - ^/api/auth/pub/(.*)
+        - /pub/$1
+
+---
+# Auth Private API (authentication required)
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: auth-private-route
+  namespace: app
+spec:
+  http:
+  - name: auth-private
+    match:
+      hosts:
+      - app.go-cinch.top
+      paths:
+      - /api/auth/*
+    backends:
+    - serviceName: auth
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+    - name: proxy-rewrite
+      enable: true
+      config:
+        regex_uri:
+        - ^/api/auth/(.*)
+        - /$1
+    - name: serverless-pre-function
+      enable: true
+      config:
+        phase: rewrite
+        functions:
+        - |
+          return function(conf, ctx)
+            local core = require("apisix.core")
+            local http = require("resty.http")
+            local httpc = http.new()
+
+            -- Call external auth service
+            local res, err = httpc:request_uri("http://auth.app.svc.cluster.local/permission", {
+              method = "GET",
+              headers = {
+                ["X-Original-URI"] = ctx.var.request_uri,
+                ["X-Original-Method"] = ctx.var.request_method,
+                ["Authorization"] = core.request.header(ctx, "Authorization") or "",
+                ["X-Permission-URI"] = string.match(ctx.var.request_uri, "^/api/([^%?]*)") or ""
+              }
+            })
+
+            if not res or res.status ~= 200 then
+              core.response.exit(403, {message = "Permission denied"})
+            end
+          end
+
+---
+# ====================
+# OSS Service API Routes
+# ====================
+
+# OSS Public API (no authentication)
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: oss-pub-route
+  namespace: app
+spec:
+  http:
+  - name: oss-pub
+    match:
+      hosts:
+      - app.go-cinch.top
+      paths:
+      - /api/oss/pub/*
+    backends:
+    - serviceName: oss
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+    - name: proxy-rewrite
+      enable: true
+      config:
+        regex_uri:
+        - ^/api/oss/pub/(.*)
+        - /pub/$1
+
+---
+# OSS Private API (authentication required)
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: oss-private-route
+  namespace: app
+spec:
+  http:
+  - name: oss-private
+    match:
+      hosts:
+      - app.go-cinch.top
+      paths:
+      - /api/oss/*
+    backends:
+    - serviceName: oss
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+    - name: proxy-rewrite
+      enable: true
+      config:
+        regex_uri:
+        - ^/api/oss/(.*)
+        - /$1
+    - name: serverless-pre-function
+      enable: true
+      config:
+        phase: rewrite
+        functions:
+        - |
+          return function(conf, ctx)
+            local core = require("apisix.core")
+            local http = require("resty.http")
+            local httpc = http.new()
+
+            local res, err = httpc:request_uri("http://auth.app.svc.cluster.local/permission", {
+              method = "GET",
+              headers = {
+                ["X-Original-URI"] = ctx.var.request_uri,
+                ["X-Original-Method"] = ctx.var.request_method,
+                ["Authorization"] = core.request.header(ctx, "Authorization") or "",
+                ["X-Permission-URI"] = string.match(ctx.var.request_uri, "^/api/([^%?]*)") or ""
+              }
+            })
+
+            if not res or res.status ~= 200 then
+              core.response.exit(403, {message = "Permission denied"})
+            end
+          end
+
+---
+# ====================
+# OCR Service API Route (public - no auth)
+# ====================
+
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: ocr-api-route
+  namespace: app
+spec:
+  http:
+  - name: ocr-api
+    match:
+      hosts:
+      - app.go-cinch.top
+      paths:
+      - /api/ocr/*
+    backends:
+    - serviceName: ocr
+      servicePort: 80
+    plugins:
+    - name: cors
+      enable: true
+      config:
+        allow_origins: "*"
+        allow_methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD"
+        allow_headers: "Authorization,Content-Type,Accept,X-Idempotent"
+        expose_headers: "*"
+        max_age: 3600
+        allow_credential: false
+    - name: proxy-rewrite
+      enable: true
+      config:
+        regex_uri:
+        - ^/api/ocr/(.*)
+        - /$1
+
+---
+# ====================
+# Monitoring & Management Routes
+# ====================
+
+# Grafana
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: grafana-route
+  namespace: grafana
+spec:
+  http:
+  - name: grafana
+    match:
+      hosts:
+      - grafana.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: grafana
+      servicePort: 80
+
+---
+# Prometheus
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: prometheus-route
+  namespace: prometheus
+spec:
+  http:
+  - name: prometheus
+    match:
+      hosts:
+      - prometheus.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: prometheus
+      servicePort: 80
+
+---
+# ====================
+# MinIO Routes
+# ====================
+
+# MinIO API
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: minio-api-route
+  namespace: minio
+spec:
+  http:
+  - name: minio-api
+    match:
+      hosts:
+      - minio-api.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: minio
+      servicePort: 9000  # http-minio port
+    plugins:
+    - name: client-control
+      enable: true
+      config:
+        max_body_size: 524288000  # 500MB in bytes
+    - name: redirect
+      enable: true
+      config:
+        http_to_https: true
+
+---
+# MinIO Console
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: minio-console-route
+  namespace: minio
+spec:
+  http:
+  - name: minio-console
+    match:
+      hosts:
+      - minio.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: minio
+      servicePort: 9001  # http-minio-ui port
+    plugins:
+    - name: redirect
+      enable: true
+      config:
+        http_to_https: true
+
+---
+# ====================
+# ArgoCD Route (HTTPS passthrough)
+# ====================
+
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: argocd-route
+  namespace: argocd
+spec:
+  http:
+  - name: argocd
+    match:
+      hosts:
+      - argocd.go-cinch.top
+      paths:
+      - /*
+    backends:
+    - serviceName: argocd-server
+      servicePort: 443
+    plugins:
+    - name: proxy-rewrite
+      enable: true
+      config:
+        scheme: https
+
+---
+# ====================
+# TLS Configuration
+# ====================
+
+apiVersion: apisix.apache.org/v2
+kind: ApisixTls
+metadata:
+  name: app-tls
+  namespace: app
+spec:
+  hosts:
+  - app.go-cinch.top
+  - vue3.go-cinch.top
+  - ocr.go-cinch.top
+  - react.go-cinch.top
+  - asynqmon.go-cinch.top
+  - yolo.go-cinch.top
+  secret:
+    name: app-ingress-tls
+    namespace: app
+
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixTls
+metadata:
+  name: grafana-tls
+  namespace: grafana
+spec:
+  hosts:
+  - grafana.go-cinch.top
+  secret:
+    name: grafana-ingress-tls
+    namespace: grafana
+
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixTls
+metadata:
+  name: prometheus-tls
+  namespace: prometheus
+spec:
+  hosts:
+  - prometheus.go-cinch.top
+  secret:
+    name: prometheus-ingress-tls
+    namespace: prometheus
+
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixTls
+metadata:
+  name: minio-tls
+  namespace: minio
+spec:
+  hosts:
+  - minio-api.go-cinch.top
+  - minio.go-cinch.top
+  secret:
+    name: minio-ingress-tls
+    namespace: minio
+
+---
+apiVersion: apisix.apache.org/v2
+kind: ApisixTls
+metadata:
+  name: argocd-tls
+  namespace: argocd
+spec:
+  hosts:
+  - argocd.go-cinch.top
+  secret:
+    name: argocd-ingress-tls
+    namespace: argocd
