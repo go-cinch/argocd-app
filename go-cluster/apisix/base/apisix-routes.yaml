@@ -13,6 +13,7 @@ metadata:
   name: vue3-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: vue3
     match:
@@ -42,6 +43,7 @@ metadata:
   name: ocr-vue3-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: ocr-vue3
     match:
@@ -71,6 +73,7 @@ metadata:
   name: react-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: react
     match:
@@ -100,6 +103,7 @@ metadata:
   name: asynqmon-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: asynqmon
     match:
@@ -129,6 +133,7 @@ metadata:
   name: yolo-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: yolo
     match:
@@ -162,6 +167,7 @@ metadata:
   name: auth-pub-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: auth-pub
     match:
@@ -197,6 +203,7 @@ metadata:
   name: auth-private-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: auth-private
     match:
@@ -262,6 +269,7 @@ metadata:
   name: oss-pub-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: oss-pub
     match:
@@ -297,6 +305,7 @@ metadata:
   name: oss-private-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: oss-private
     match:
@@ -360,6 +369,7 @@ metadata:
   name: ocr-api-route
   namespace: app
 spec:
+  ingressClassName: apisix
   http:
   - name: ocr-api
     match:
@@ -399,6 +409,7 @@ metadata:
   name: grafana-route
   namespace: grafana
 spec:
+  ingressClassName: apisix
   http:
   - name: grafana
     match:
@@ -418,6 +429,7 @@ metadata:
   name: prometheus-route
   namespace: prometheus
 spec:
+  ingressClassName: apisix
   http:
   - name: prometheus
     match:
@@ -441,6 +453,7 @@ metadata:
   name: minio-api-route
   namespace: minio
 spec:
+  ingressClassName: apisix
   http:
   - name: minio-api
     match:
@@ -469,6 +482,7 @@ metadata:
   name: minio-console-route
   namespace: minio
 spec:
+  ingressClassName: apisix
   http:
   - name: minio-console
     match:
@@ -496,6 +510,7 @@ metadata:
   name: argocd-route
   namespace: argocd
 spec:
+  ingressClassName: apisix
   http:
   - name: argocd
     match:
@@ -523,6 +538,7 @@ metadata:
   name: app-tls
   namespace: app
 spec:
+  ingressClassName: apisix
   hosts:
   - app.go-cinch.top
   - vue3.go-cinch.top
@@ -541,6 +557,7 @@ metadata:
   name: grafana-tls
   namespace: grafana
 spec:
+  ingressClassName: apisix
   hosts:
   - grafana.go-cinch.top
   secret:
@@ -554,6 +571,7 @@ metadata:
   name: prometheus-tls
   namespace: prometheus
 spec:
+  ingressClassName: apisix
   hosts:
   - prometheus.go-cinch.top
   secret:
@@ -567,6 +585,7 @@ metadata:
   name: minio-tls
   namespace: minio
 spec:
+  ingressClassName: apisix
   hosts:
   - minio-api.go-cinch.top
   - minio.go-cinch.top
@@ -581,6 +600,7 @@ metadata:
   name: argocd-tls
   namespace: argocd
 spec:
+  ingressClassName: apisix
   hosts:
   - argocd.go-cinch.top
   secret:
