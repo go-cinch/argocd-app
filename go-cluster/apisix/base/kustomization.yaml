@@ -3,3 +3,35 @@ kind: Kustomization
 
 resources:
 - apisix-routes.yaml
+
+secretGenerator:
+- name: app-ingress-tls
+  files:
+  - tls.crt=certs/server.pem
+  - tls.key=certs/server.key
+  type: kubernetes.io/tls
+  namespace: app
+- name: grafana-ingress-tls
+  files:
+  - tls.crt=certs/server.pem
+  - tls.key=certs/server.key
+  type: kubernetes.io/tls
+  namespace: grafana
+- name: prometheus-ingress-tls
+  files:
+  - tls.crt=certs/server.pem
+  - tls.key=certs/server.key
+  type: kubernetes.io/tls
+  namespace: prometheus
+- name: argocd-ingress-tls
+  files:
+  - tls.crt=certs/server.pem
+  - tls.key=certs/server.key
+  type: kubernetes.io/tls
+  namespace: argocd
+- name: minio-ingress-tls
+  files:
+  - tls.crt=certs/server.pem
+  - tls.key=certs/server.key
+  type: kubernetes.io/tls
+  namespace: minio
