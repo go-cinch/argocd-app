@@ -4,6 +4,9 @@ kind: Kustomization
 resources:
 - apisix-routes.yaml
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 secretGenerator:
 - name: app-ingress-tls
   files:
