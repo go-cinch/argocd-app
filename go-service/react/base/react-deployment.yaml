@@ -11,6 +11,13 @@ spec:
     canary:
       canaryService: react-canary
       stableService: react
+      trafficRouting:
+        nginx:
+          stableIngress: app-ingress
+          # add canary header
+          additionalIngressAnnotations:
+            canary-by-header: X-Canary
+            canary-by-header-value: iwantsit
       steps:
       - setWeight: 5
       - pause: {}
