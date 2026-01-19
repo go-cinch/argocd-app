@@ -501,19 +501,9 @@ spec:
 
 ---
 # ====================
-# ArgoCD (HTTPS upstream)
+# ArgoCD (HTTP backend)
 # ====================
 
-apiVersion: apisix.apache.org/v2
-kind: ApisixUpstream
-metadata:
-  name: argocd-server
-  namespace: argocd
-spec:
-  ingressClassName: apisix
-  scheme: https
-
----
 apiVersion: apisix.apache.org/v2
 kind: ApisixRoute
 metadata:
@@ -530,7 +520,7 @@ spec:
       - /*
     backends:
     - serviceName: argocd-server
-      servicePort: 443
+      servicePort: 80
 
 ---
 # ====================
