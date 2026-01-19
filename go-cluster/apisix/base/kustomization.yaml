@@ -3,12 +3,13 @@ kind: Kustomization
 
 resources:
 - apisix-routes.yaml
+- canary-ingress.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
 
 secretGenerator:
-- name: app-ingress-tls
+- name: canary-ingress-tls
   files:
   - tls.crt=certs/server.pem
   - tls.key=certs/server.key

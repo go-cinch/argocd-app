@@ -13,7 +13,7 @@ spec:
       stableService: auth
       trafficRouting:
         nginx:
-          stableIngress: app-ingress
+          stableIngress: canary-ingress
           # add canary header
           additionalIngressAnnotations:
             canary-by-header: X-Canary

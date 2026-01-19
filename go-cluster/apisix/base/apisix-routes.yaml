@@ -547,7 +547,7 @@ spec:
   - asynqmon.go-cinch.top
   - yolo.go-cinch.top
   secret:
-    name: app-ingress-tls
+    name: canary-ingress-tls
     namespace: app
 
 ---

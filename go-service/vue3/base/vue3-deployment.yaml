@@ -13,7 +13,7 @@ spec:
       stableService: vue3
       trafficRouting:
         nginx:
-          stableIngress: app-ingress
+          stableIngress: canary-ingress
           # add canary header
           additionalIngressAnnotations:
             canary-by-header: X-Canary
