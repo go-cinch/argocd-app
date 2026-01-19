@@ -16,12 +16,11 @@ spec:
       canaryService: prometheus-canary
       stableService: prometheus
       trafficRouting:
-        nginx:
-          stableIngress: prometheus-ingress
-          # add canary header
-          additionalIngressAnnotations:
-            canary-by-header: X-Canary
-            canary-by-header-value: iwantsit
+        apisix:
+          route:
+            name: prometheus-route
+            rules:
+            - prometheus
       steps:
       - setWeight: 5
       - pause: {}

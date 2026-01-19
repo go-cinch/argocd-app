@@ -12,12 +12,11 @@ spec:
       canaryService: vue3-canary
       stableService: vue3
       trafficRouting:
-        nginx:
-          stableIngress: canary-ingress
-          # add canary header
-          additionalIngressAnnotations:
-            canary-by-header: X-Canary
-            canary-by-header-value: iwantsit
+        apisix:
+          route:
+            name: vue3-route
+            rules:
+            - vue3
       steps:
       - setWeight: 5
       - pause: {}

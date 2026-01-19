@@ -12,12 +12,11 @@ spec:
       canaryService: ocr-vue3-canary
       stableService: ocr-vue3
       trafficRouting:
-        nginx:
-          stableIngress: canary-ingress
-          # add canary header
-          additionalIngressAnnotations:
-            canary-by-header: X-Canary
-            canary-by-header-value: iwantsit
+        apisix:
+          route:
+            name: ocr-vue3-route
+            rules:
+            - ocr-vue3
       steps:
       - setWeight: 5
       - pause: {}

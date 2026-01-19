@@ -12,12 +12,11 @@ spec:
       canaryService: asynqmon-canary
       stableService: asynqmon
       trafficRouting:
-        nginx:
-          stableIngress: canary-ingress
-          # add canary header
-          additionalIngressAnnotations:
-            canary-by-header: X-Canary
-            canary-by-header-value: iwantsit
+        apisix:
+          route:
+            name: asynqmon-route
+            rules:
+            - asynqmon
       steps:
       - setWeight: 5
       - pause: {}

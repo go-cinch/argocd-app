@@ -12,12 +12,11 @@ spec:
       canaryService: yolo-canary
       stableService: yolo
       trafficRouting:
-        nginx:
-          stableIngress: canary-ingress
-          # add canary header
-          additionalIngressAnnotations:
-            canary-by-header: X-Canary
-            canary-by-header-value: iwantsit
+        apisix:
+          route:
+            name: yolo-route
+            rules:
+            - yolo
       steps:
       - setWeight: 5
       - pause: {}

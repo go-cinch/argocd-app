@@ -12,12 +12,11 @@ spec:
       canaryService: ocr-canary
       stableService: ocr
       trafficRouting:
-        nginx:
-          stableIngress: canary-ingress
-          # add canary header
-          additionalIngressAnnotations:
-            canary-by-header: X-Canary
-            canary-by-header-value: iwantsit
+        apisix:
+          route:
+            name: ocr-api-route
+            rules:
+            - ocr-api
       steps:
       - setWeight: 5
       - pause: {}

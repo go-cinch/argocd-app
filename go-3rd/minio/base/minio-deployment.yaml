@@ -16,12 +16,11 @@ spec:
       canaryService: minio-canary
       stableService: minio
       trafficRouting:
-        nginx:
-          stableIngress: minio-ingress
-          # add canary header
-          additionalIngressAnnotations:
-            canary-by-header: X-Canary
-            canary-by-header-value: iwantsit
+        apisix:
+          route:
+            name: minio-console-route
+            rules:
+            - minio-console
       steps:
       - setWeight: 5
       - pause: {}

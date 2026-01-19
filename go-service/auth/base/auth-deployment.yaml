@@ -12,12 +12,11 @@ spec:
       canaryService: auth-canary
       stableService: auth
       trafficRouting:
-        nginx:
-          stableIngress: canary-ingress
-          # add canary header
-          additionalIngressAnnotations:
-            canary-by-header: X-Canary
-            canary-by-header-value: iwantsit
+        apisix:
+          route:
+            name: auth-private-route
+            rules:
+            - auth-private
       steps:
       - setWeight: 5
       - pause: {}

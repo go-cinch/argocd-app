@@ -16,12 +16,11 @@ spec:
       canaryService: grafana-canary
       stableService: grafana
       trafficRouting:
-        nginx:
-          stableIngress: grafana-ingress
-          # add canary header
-          additionalIngressAnnotations:
-            canary-by-header: X-Canary
-            canary-by-header-value: iwantsit
+        apisix:
+          route:
+            name: grafana-route
+            rules:
+            - grafana
       steps:
       - setWeight: 5
       - pause: {}
