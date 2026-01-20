@@ -11,3 +11,6 @@ configMapGenerator:
 - name: grafana-configmap
   envs:
   - ./env/user.env
+- name: grafana-datasources
+  files:
+  - datasources.yaml=./provisioning/datasources.yaml
