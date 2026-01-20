@@ -290,14 +290,14 @@ spec:
             end
 
             if res.status ~= 200 then
-              -- Forward all auth service response headers and body
-              local headers = {}
+              -- Set response headers first
               if res.headers then
                 for k, v in pairs(res.headers) do
-                  headers[k] = v
+                  core.response.set_header(k, v)
                 end
               end
-              core.response.exit(res.status, res.body, headers)
+              -- Then exit with status and body
+              core.response.exit(res.status, res.body)
             end
           end
 
@@ -415,14 +415,14 @@ spec:
             end
 
             if res.status ~= 200 then
-              -- Forward all auth service response headers and body
-              local headers = {}
+              -- Set response headers first
               if res.headers then
                 for k, v in pairs(res.headers) do
-                  headers[k] = v
+                  core.response.set_header(k, v)
                 end
               end
-              core.response.exit(res.status, res.body, headers)
+              -- Then exit with status and body
+              core.response.exit(res.status, res.body)
             end
           end
 
