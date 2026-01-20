@@ -306,6 +306,15 @@ spec:
               -- Then exit with status and body
               core.response.exit(res.status, res.body)
             end
+
+            -- Forward x-md-global-* headers from permission response to upstream request
+            if res.headers then
+              for k, v in pairs(res.headers) do
+                if string.sub(k:lower(), 1, 12) == "x-md-global-" then
+                  core.request.set_header(ctx, k, v)
+                end
+              end
+            end
           end
 
 ---
@@ -437,6 +446,15 @@ spec:
               end
               -- Then exit with status and body
               core.response.exit(res.status, res.body)
+            end
+
+            -- Forward x-md-global-* headers from permission response to upstream request
+            if res.headers then
+              for k, v in pairs(res.headers) do
+                if string.sub(k:lower(), 1, 12) == "x-md-global-" then
+                  core.request.set_header(ctx, k, v)
+                end
+              end
             end
           end
 
