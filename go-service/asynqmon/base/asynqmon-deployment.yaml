@@ -20,6 +20,8 @@ spec:
         managedRoutes:
         - name: header-route
       steps:
+      - setCanaryScale:
+          replicas: 1
       - setHeaderRoute:
           name: header-route
           match:
