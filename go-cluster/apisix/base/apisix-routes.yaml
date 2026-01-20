@@ -285,8 +285,19 @@ spec:
               }
             })
 
-            if not res or res.status ~= 200 then
-              core.response.exit(403, {message = "Permission denied"})
+            if not res then
+              core.response.exit(500, {message = "Auth service unavailable"})
+            end
+
+            if res.status ~= 200 then
+              -- Forward all auth service response headers and body
+              local headers = {}
+              if res.headers then
+                for k, v in pairs(res.headers) do
+                  headers[k] = v
+                end
+              end
+              core.response.exit(res.status, res.body, headers)
             end
           end
 
@@ -399,8 +410,19 @@ spec:
               }
             })
 
-            if not res or res.status ~= 200 then
-              core.response.exit(403, {message = "Permission denied"})
+            if not res then
+              core.response.exit(500, {message = "Auth service unavailable"})
+            end
+
+            if res.status ~= 200 then
+              -- Forward all auth service response headers and body
+              local headers = {}
+              if res.headers then
+                for k, v in pairs(res.headers) do
+                  headers[k] = v
+                end
+              end
+              core.response.exit(res.status, res.body, headers)
             end
           end
 
