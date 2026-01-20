@@ -17,6 +17,8 @@ spec:
             name: asynqmon-route
             rules:
             - asynqmon
+        managedRoutes:
+        - name: header-route
       steps:
       - setHeaderRoute:
           name: header-route
