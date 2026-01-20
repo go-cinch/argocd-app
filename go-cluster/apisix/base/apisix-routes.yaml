@@ -24,6 +24,10 @@ spec:
     backends:
     - serviceName: vue3
       servicePort: 80
+      weight: 100
+    - serviceName: vue3-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -54,6 +58,10 @@ spec:
     backends:
     - serviceName: ocr-vue3
       servicePort: 80
+      weight: 100
+    - serviceName: ocr-vue3-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -84,6 +92,10 @@ spec:
     backends:
     - serviceName: react
       servicePort: 80
+      weight: 100
+    - serviceName: react-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -148,6 +160,10 @@ spec:
     backends:
     - serviceName: yolo
       servicePort: 80
+      weight: 100
+    - serviceName: yolo-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -182,6 +198,10 @@ spec:
     backends:
     - serviceName: auth
       servicePort: 80
+      weight: 100
+    - serviceName: auth-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -218,6 +238,10 @@ spec:
     backends:
     - serviceName: auth
       servicePort: 80
+      weight: 100
+    - serviceName: auth-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -284,6 +308,10 @@ spec:
     backends:
     - serviceName: oss
       servicePort: 80
+      weight: 100
+    - serviceName: oss-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -320,6 +348,10 @@ spec:
     backends:
     - serviceName: oss
       servicePort: 80
+      weight: 100
+    - serviceName: oss-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -384,6 +416,10 @@ spec:
     backends:
     - serviceName: ocr
       servicePort: 80
+      weight: 100
+    - serviceName: ocr-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -448,6 +484,10 @@ spec:
     backends:
     - serviceName: prometheus
       servicePort: 80
+      weight: 100
+    - serviceName: prometheus-canary
+      servicePort: 80
+      weight: 0
 
 ---
 # ====================
@@ -472,6 +512,10 @@ spec:
     backends:
     - serviceName: minio
       servicePort: 9000  # http-minio port
+      weight: 100
+    - serviceName: minio-canary
+      servicePort: 9000
+      weight: 0
     plugins:
     - name: client-control
       enable: true
@@ -501,6 +545,10 @@ spec:
     backends:
     - serviceName: minio
       servicePort: 9001  # http-minio-ui port
+      weight: 100
+    - serviceName: minio-canary
+      servicePort: 9001
+      weight: 0
     plugins:
     - name: redirect
       enable: true

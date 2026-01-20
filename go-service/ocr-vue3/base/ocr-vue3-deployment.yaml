@@ -17,8 +17,17 @@ spec:
             name: ocr-vue3-route
             rules:
             - ocr-vue3
+        managedRoutes:
+        - name: header-route
       steps:
-      - setWeight: 5
+      - setCanaryScale:
+          replicas: 1
+      - setHeaderRoute:
+          name: header-route
+          match:
+          - headerName: X-Canary
+            headerValue:
+              exact: iwantsit
       - pause: {}
   selector:
     matchLabels:

@@ -21,8 +21,17 @@ spec:
             name: minio-console-route
             rules:
             - minio-console
+        managedRoutes:
+        - name: header-route
       steps:
-      - setWeight: 5
+      - setCanaryScale:
+          replicas: 1
+      - setHeaderRoute:
+          name: header-route
+          match:
+          - headerName: X-Canary
+            headerValue:
+              exact: iwantsit
       - pause: {}
   template:
     metadata:
