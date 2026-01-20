@@ -114,6 +114,10 @@ spec:
     backends:
     - serviceName: asynqmon
       servicePort: 80
+      weight: 100
+    - serviceName: asynqmon-canary
+      servicePort: 80
+      weight: 0
     plugins:
     - name: cors
       enable: true
@@ -420,6 +424,10 @@ spec:
     backends:
     - serviceName: grafana
       servicePort: 80
+      weight: 100
+    - serviceName: grafana-canary
+      servicePort: 80
+      weight: 0
 
 ---
 # Prometheus
