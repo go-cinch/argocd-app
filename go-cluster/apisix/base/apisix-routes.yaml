@@ -269,6 +269,11 @@ spec:
             local http = require("resty.http")
             local httpc = http.new()
 
+            -- Skip OPTIONS preflight requests (handled by CORS plugin)
+            if ctx.var.request_method == "OPTIONS" then
+              return
+            end
+
             -- Call external auth service
             local res, err = httpc:request_uri("http://auth.app.svc.cluster.local/permission", {
               method = "GET",
@@ -378,6 +383,11 @@ spec:
             local core = require("apisix.core")
             local http = require("resty.http")
             local httpc = http.new()
+
+            -- Skip OPTIONS preflight requests (handled by CORS plugin)
+            if ctx.var.request_method == "OPTIONS" then
+              return
+            end
 
             local res, err = httpc:request_uri("http://auth.app.svc.cluster.local/permission", {
               method = "GET",
