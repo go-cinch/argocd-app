@@ -18,7 +18,12 @@ spec:
             rules:
             - asynqmon
       steps:
-      - setWeight: 5
+      - setHeaderRoute:
+          name: header-route
+          match:
+          - headerName: X-Canary
+            headerValue:
+              exact: iwantsit
       - pause: {}
   selector:
     matchLabels:
