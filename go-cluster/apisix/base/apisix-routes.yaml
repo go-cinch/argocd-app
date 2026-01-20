@@ -603,34 +603,6 @@ spec:
 
 ---
 # ====================
-# ArgoCD Route (HTTPS passthrough)
-# ====================
-
-apiVersion: apisix.apache.org/v2
-kind: ApisixRoute
-metadata:
-  name: argocd-route
-  namespace: argocd
-spec:
-  ingressClassName: app-ingress
-  http:
-  - name: argocd
-    match:
-      hosts:
-      - argocd.go-cinch.top
-      paths:
-      - /*
-    backends:
-    - serviceName: argocd-server
-      servicePort: 443
-    plugins:
-    - name: proxy-rewrite
-      enable: true
-      config:
-        scheme: https
-
----
-# ====================
 # TLS Configuration
 # ====================
 
