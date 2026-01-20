@@ -274,8 +274,15 @@ spec:
               return
             end
 
+            -- Determine auth service URL based on X-Canary header
+            local auth_host = "http://auth.app.svc.cluster.local"
+            local canary_header = core.request.header(ctx, "X-Canary")
+            if canary_header == "iwantsit" then
+              auth_host = "http://auth-canary.app.svc.cluster.local"
+            end
+
             -- Call external auth service
-            local res, err = httpc:request_uri("http://auth.app.svc.cluster.local/permission", {
+            local res, err = httpc:request_uri(auth_host .. "/permission", {
               method = "GET",
               headers = {
                 ["X-Original-URI"] = ctx.var.request_uri,
@@ -400,7 +407,14 @@ spec:
               return
             end
 
-            local res, err = httpc:request_uri("http://auth.app.svc.cluster.local/permission", {
+            -- Determine auth service URL based on X-Canary header
+            local auth_host = "http://auth.app.svc.cluster.local"
+            local canary_header = core.request.header(ctx, "X-Canary")
+            if canary_header == "iwantsit" then
+              auth_host = "http://auth-canary.app.svc.cluster.local"
+            end
+
+            local res, err = httpc:request_uri(auth_host .. "/permission", {
               method = "GET",
               headers = {
                 ["X-Original-URI"] = ctx.var.request_uri,
