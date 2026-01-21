@@ -38,7 +38,7 @@ spec:
         app: auth
     spec:
       containers:
-      - image: ghcr.io/go-cinch/auth@sha256:819bc1665f649bf532b2da4afa7ee801df5b146aa6af9767bce5bb54f8935241
+      - image: ghcr.io/go-cinch/auth@sha256:6ebe6c001d486267923fbb9c82976f0f155006c2ae7a9e3eccf6a10b4d3b99f1
         imagePullPolicy: Always
         name: auth
         env:
