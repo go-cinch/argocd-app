@@ -38,7 +38,7 @@ spec:
         app: react
     spec:
       containers:
-      - image: ghcr.io/go-cinch/pc-react@sha256:de78e973e420f617d6eabc70563f80e1941dfb2e013cf3d603356cfe89647f9c
+      - image: ghcr.io/go-cinch/pc-react@sha256:02a0373bb43bf97bec04bb651f197498d6edbe1620be9abb7d3114b3a0f016aa
         imagePullPolicy: Always
         name: react
         resources:
