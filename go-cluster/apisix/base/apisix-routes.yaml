@@ -288,7 +288,7 @@ spec:
                 ["X-Original-URI"] = ctx.var.request_uri,
                 ["X-Original-Method"] = ctx.var.request_method,
                 ["Authorization"] = core.request.header(ctx, "Authorization") or "",
-                ["X-Permission-URI"] = string.match(ctx.var.request_uri, "^/api/([^%?]*)") or ""
+                ["X-Permission-URI"] = string.match(ctx.var.request_uri, "^/api(/[^%?]*)") or ""
               }
             })
 
@@ -429,7 +429,7 @@ spec:
                 ["X-Original-URI"] = ctx.var.request_uri,
                 ["X-Original-Method"] = ctx.var.request_method,
                 ["Authorization"] = core.request.header(ctx, "Authorization") or "",
-                ["X-Permission-URI"] = string.match(ctx.var.request_uri, "^/api/([^%?]*)") or ""
+                ["X-Permission-URI"] = string.match(ctx.var.request_uri, "^/api(/[^%?]*)") or ""
               }
             })
 
